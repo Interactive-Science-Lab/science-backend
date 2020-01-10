@@ -9,22 +9,24 @@ const { log } = require('../../administration/userLogs/log-middleware.js')
 const authenticate = require('../../accounts/restricted-middleware.js')
 
 router.get('/', (req, res) => {
-  const sort = req.query.sort || "blog_title"
   const category = req.query.category || "Blog"
-  const tag = req.query.tag  || ""
+  
+  const sort = req.query.sort || "blog_title"
   const sortdir = req.query.sortdir || "ASC"
+  
+  const tag = req.query.tag  || ""
   const searchTerm = req.query.search || ""
+  const filter = req.query.filter || "public"
 
-  SiteBlogs.find(sort, sortdir, searchTerm, category, tag)
+  SiteBlogs.find(sort, sortdir, searchTerm, category, tag, filter)
     .then(site_blogs => {
 
-      console.log(site_blogs)
 
       // get page from query params or default to first page
       const page = parseInt(req.query.page) || 1;
 
       // get pager object for specified page
-      const pageSize = 10;
+      const pageSize = 6;
       const pager = paginate(site_blogs.length, page, pageSize);
 
       // get page of site_blogs from site_blogs array
@@ -39,6 +41,20 @@ router.get('/', (req, res) => {
       res.status(500).json({ message: 'Failed to get site_blogs' });
     });
 });
+
+router.get('/tag-cloud/:category', async(req, res) => {
+  const {category} = req.params
+  //Returns an array of arrays with all the tags, i.e. [[tag1, tag2], [tag1, tag2, tag3], [tag2, tag4]]
+  const tags = await SiteBlogs.tagCloud(category);
+  let cloudObj = {}, cloudArr = []
+  //Map over the the array of arrays into an object with the hash being the tag name and the value being the count
+  tags.map(tagArray => tagArray.map(tagItem => cloudObj[tagItem] >= 0 ? cloudObj[tagItem] += 1 : cloudObj[tagItem] = 1))
+  //Map that back into an array for sorting
+  Object.entries(cloudObj).map(arr => cloudArr.push(arr))
+  cloudArr = cloudArr.sort((a, b) => b[1] - a[1])
+  //And return
+  res.json(cloudArr)
+})
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;

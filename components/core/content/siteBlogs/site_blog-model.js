@@ -3,6 +3,7 @@ const knex = require('knex')
 
 module.exports = {
   find,
+  tagCloud,
   listOfNames,
   findById,
   findByName,
@@ -13,7 +14,7 @@ module.exports = {
 
 
 
-function find(sort, sortdir, searchTerm, category, tag) {
+function find(sort, sortdir, searchTerm, category, tag, filter) {
   let query = db('site_blogs')
     .orderBy(sort, sortdir)
     .select('site_blog_id',
@@ -21,16 +22,27 @@ function find(sort, sortdir, searchTerm, category, tag) {
       'username AS author_username',
       'blog_title',
       'blog_tags',
-      'blog_category')
+      'blog_description',
+      'blog_status',
+      'blog_category',
+      'created_at')
     .leftJoin('users', 'site_blogs.author_id', 'users.user_id')
     .andWhere('blog_category', category)
+    .andWhere('blog_status', filter)
     .where('blog_title', 'iLIKE', `%${searchTerm}%`)
-    
 
-    if(tag !== "") { query = query.where(db.raw(`'${tag}' = ANY(blog_tags)`)) }
-    
-    return query
 
+  if (tag !== "") { query = query.where(db.raw(`'${tag}' = ANY(blog_tags)`)) }
+
+  return query
+
+}
+
+function tagCloud(category) {
+  return db('site_blogs')
+    .where('blog_category', category)
+    .andWhere('blog_status', 'public')
+    .pluck('blog_tags')
 }
 
 function listOfNames() {
@@ -40,6 +52,17 @@ function listOfNames() {
 
 function findById(id) {
   return db('site_blogs')
+    .select('site_blog_id',
+      'author_id',
+      'username AS author_username',
+      'blog_title',
+      'blog_text',
+      'blog_tags',
+      'blog_description',
+      'blog_status',
+      'blog_category',
+      'created_at')
+    .leftJoin('users', 'site_blogs.author_id', 'users.user_id')
     .where('site_blog_id', id)
     .first();
 }

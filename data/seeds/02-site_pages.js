@@ -8,25 +8,25 @@ exports.seed = function(knex) {
       page_order: 1
     },
     {
-      page_title: "Add Your Team",
+      page_title: "Multi-User Blogging",
       page_body_text: "",
       page_category: "Features",
       page_order: 2
     },
     {
-      page_title: "Track Your Recruits",
+      page_title: "In-Browser Page Design",
       page_body_text: "",
       page_category: "Features",
       page_order: 3
     },
     {
-      page_title: "Stay Updated",
+      page_title: "Contact & Support Features",
       page_body_text: "",
       page_category: "Features",
       page_order: 4
     },
     {
-      page_title: "Keep In Contact",
+      page_title: "More Products",
       page_body_text: "",
       page_category: "Features",
       page_order: 5
@@ -34,13 +34,13 @@ exports.seed = function(knex) {
 
     
     {
-      page_title: "Contact",
+      page_title: "The Developer",
       page_body_text: "",
       page_category: "About",
       page_order: 5
     },
     {
-      page_title: "The Team",
+      page_title: "The Project",
       page_body_text: "",
       page_category: "About",
       page_order: 5

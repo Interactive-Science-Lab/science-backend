@@ -7,79 +7,52 @@ exports.seed = function (knex) {
         //The lead/developer who can see EVERYTHING for debugging purposes
         {
             password: password,
-            username: "AdminJH",
+            username: "webmaster",
             user_email: "Thejhubbs@gmail.com",
             user_role: 3,
             user_kind: "admin_user",
             user_verified: true
         },
+        //The owner of the website
         {
             password: password,
-            username: "AdminLG",
-            user_email: "leroy@gmail.com",
-            user_role: 3,
-            user_kind: "admin_user",
-            user_verified: true
-        },
-        //An admin/moderator that can do pretty much everything except see some personal info
-        {
-            password: password,
-            username: "ExampleAdmin",
-            user_email: "Admin@gmail.com",
+            username: "AdminJH",
+            user_email: "asdf@gmail.com",
             user_role: 2,
             user_kind: "admin_user",
             user_verified: true
         },
-        //A developer/designer/whatever you want to allow access to things like pages & posts, but other regular permissions
+        //If you would hire someone to edit the pages/blogs
         {
             password: password,
-            username: "ExampleDev",
-            user_email: "Developer@gmail.com",
+            username: "exampleWorker",
+            user_email: "aasdf@gmail.com",
             user_role: 1,
             user_kind: "admin_user",
             user_verified: true
         },
-
-        //Your personal test profile
+        //A trusted long term user that controls moderators, or the owners' user account
         {
             password: password,
-            username: "LGardner",
-            user_email: "leroy.gardner@gmail.com",
-            user_role: 1,
-            user_kind: "end_user",
-            user_verified: true
-        },
-
-        //A test team
-        {
-            password: password,
-            username: "TestHeadCoach1",
-            user_email: "coach1@gmail.com",
-            user_role: 1,
+            username: "useradmin",
+            user_email: "assdf@gmail.com",
+            user_role: 3,
             user_kind: "end_user",
             user_verified: true
         },
         {
             password: password,
-            username: "TestAsstCoach2",
-            user_email: "assistant@gmail.com",
-            user_role: 1,
+            username: "usermod",
+            user_email: "asddf@gmail.com",
+            user_role: 2,
             user_kind: "end_user",
             user_verified: true
         },
         {
             password: password,
-            username: "TestRecruiter",
-            user_email: "recruiter@gmail.com",
-            user_role: 1,
-            user_kind: "end_user",
-            user_verified: true
-        },
-        {
-            password: password,
-            username: "TestCompliance",
-            user_email: "officer@gmail.com",
-            user_role: 1,
+            username: "enduser",
+            user_email: "asdff@gmail.com",
+            user_role: 3,
             user_kind: "end_user",
             user_verified: true
         }

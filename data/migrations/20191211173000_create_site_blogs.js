@@ -10,9 +10,13 @@ exports.up = function (knex, Promise) {
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE');
             tbl.text('blog_title')
+            tbl.text('blog_description')
             tbl.text('blog_text')
             tbl.specificType('blog_tags', 'text ARRAY');
             tbl.text('blog_category')
+            //draft, public, private, trash
+            tbl.string('blog_status').defaultTo('draft')
+            tbl.timestamps(false, true)
 
         })
 

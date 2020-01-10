@@ -4,52 +4,137 @@ exports.seed = function(knex) {
     {
       author_id: 1,
       blog_title: "Gamma Version Release",
+      blog_description: "A short preview of the matter at hand.",
       blog_text: "Right now, you can see the view of the core.",
       blog_tags: ['development', 'release'],
-      blog_category: "News"
+      blog_category: "News",
+      blog_status: "public"
     },
     {
-      author_id: 4,
-      blog_title: "A Good Tip For Recruiting",
+      author_id: 1,
+      blog_title: "How Can Blogging Help Your Business?",
+      blog_description: "A short preview of the matter at hand.",
       blog_text: "Here is an example of a blog you could release for natural SEO.",
-      blog_tags: ['recruiters', 'tips'],
-      blog_category: "Blog"
+      blog_tags: ['blogging', 'seo', 'small business', 'tips'],
+      blog_category: "Blog",
+      blog_status: "public"
     },
     {
-      author_id: 4,
-      blog_title: "When To Do a Quick Recruit",
+      author_id: 1,
+      blog_title: "What is The Difference between WordPress, SquareSpace, etc.?",
+      blog_description: "A short preview of the matter at hand.",
       blog_text: "Here is an example of a blog you could release for natural SEO.",
-      blog_tags: ['recruiters', 'legal'],
-      blog_category: "Blog"
+      blog_tags: ['blogging', 'seo', 'small business', 'tips'],
+      blog_category: "Blog",
+      blog_status: "public"
     },
     {
-      author_id: 4,
-      blog_title: "When To Do a Quick Recruit",
+      author_id: 1,
+      blog_title: "When To Consider WordPress",
+      blog_description: "A short preview of the matter at hand.",
       blog_text: "Here is an example of a blog you could release for natural SEO.",
-      blog_tags: ['recruiters', 'tips'],
-      blog_category: "Blog"
+      blog_tags: ['wordpress', 'tips'],
+      blog_category: "Blog",
+      blog_status: "public"
     },
     {
-      author_id: 4,
-      blog_title: "Conduct Reminders in a Technological Age",
+      author_id: 1,
+      blog_title: "Blogging SEO Tips",
+      blog_description: "A short preview of the matter at hand.",
       blog_text: "Here is an example of a blog you could release for natural SEO.",
-      blog_tags: ['conduct', 'legal'],
-      blog_category: "Blog"
+      blog_tags: ['blogging', 'seo', 'tips'],
+      blog_category: "Blog",
+      blog_status: "public"
+    },{
+      author_id: 1,
+      blog_title: "Beta Version Release",
+      blog_description: "A short preview of the matter at hand.",
+      blog_text: "Right now, you can see the view of the core.",
+      blog_tags: ['development', 'release', 'new features'],
+      blog_category: "News",
+      blog_status: "public"
     },
     {
-      author_id: 4,
-      blog_title: "Other Blog Examples",
+      author_id: 1,
+      blog_title: "When Should You Get Your Own Remote Server?",
+      blog_description: "A short preview of the matter at hand.",
       blog_text: "Here is an example of a blog you could release for natural SEO.",
-      blog_tags: ['coaches', 'tips'],
-      blog_category: "Blog"
+      blog_tags: ['small business', 'hosting'],
+      blog_category: "Blog",
+      blog_status: "public"
     },
     {
-      author_id: 2,
-      blog_title: "Another News Example",
+      author_id: 1,
+      blog_title: "What is The Best Hosting Company?",
+      blog_description: "A short preview of the matter at hand.",
       blog_text: "Here is an example of a blog you could release for natural SEO.",
+      blog_tags: ['comparisons', 'hosting', 'tips'],
+      blog_category: "Blog",
+      blog_status: "public"
+    },
+    {
+      author_id: 1,
+      blog_title: "Where to Find Free Assets",
+      blog_description: "A short preview of the matter at hand.",
+      blog_text: "Here is an example of a blog you could release for natural SEO.",
+      blog_tags: ['freebies', ],
+      blog_category: "Blog",
+      blog_status: "public"
+    },
+    {
+      author_id: 1,
+      blog_title: "What Are The Benefits of A Custom Application?",
+      blog_description: "A short preview of the matter at hand.",
+      blog_text: "Here is an example of a blog you could release for natural SEO.",
+      blog_tags: ['blogging', 'seo', ],
+      blog_category: "Blog",
+      blog_status: "public"
+    },
+    {
+      author_id: 1,
+      blog_title: "Alpha Version Release",
+      blog_description: "A short preview of the matter at hand.",
+      blog_text: "Right now, you can see the view of the core.",
       blog_tags: ['development', 'release'],
-      blog_category: "News"
+      blog_category: "News",
+      blog_status: "public"
     },
+    {
+      author_id: 1,
+      blog_title: "How Can a Mobile App Help Your Business?",
+      blog_description: "A short preview of the matter at hand.",
+      blog_text: "Here is an example of a blog you could release for natural SEO.",
+      blog_tags: ['mobile', 'small business', ],
+      blog_category: "Blog",
+      blog_status: "public"
+    },
+    {
+      author_id: 1,
+      blog_title: "What is The Difference between WordPress, SquareSpace, etc.?",
+      blog_description: "A short preview of the matter at hand.",
+      blog_text: "Here is an example of a blog you could release for natural SEO.",
+      blog_tags: [ 'seo', 'small business', ],
+      blog_category: "Blog",
+      blog_status: "public"
+    },
+    {
+      author_id: 1,
+      blog_title: "When To Consider WordPress",
+      blog_description: "A short preview of the matter at hand.",
+      blog_text: "Here is an example of a blog you could release for natural SEO.",
+      blog_tags: ['wordpress', ],
+      blog_category: "Blog",
+      blog_status: "public"
+    },
+    {
+      author_id: 1,
+      blog_title: "Blogging SEO Tips",
+      blog_description: "A short preview of the matter at hand.",
+      blog_text: "Here is an example of a blog you could release for natural SEO.",
+      blog_tags: ['blogging', 'seo', ],
+      blog_category: "Blog",
+      blog_status: "public"
+    }
 
 
   ]);
