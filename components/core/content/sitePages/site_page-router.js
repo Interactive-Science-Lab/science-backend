@@ -1,85 +1,56 @@
 const express = require('express');
 const router = express.Router();
 
-const SitePages = require('./site_page-model.js');
+const ClassDatabase = require('./site_page-model.js');
 
-const { log } = require('../../administration/userLogs/log-middleware.js')
 const authenticate = require('../../accounts/restricted-middleware.js')
+const basicRouter = require('../../helpers/router_helpers')
 
-router.get('/', (req, res) => {
-  SitePages.find()
-    .then(site_pages => {
-      res.json(site_pages)
+const classSettings = {
+  formClass: "SitePage",
+  defaultAllSettings: { sort: "page_title", sortdir: "ASC", filter: "public" },
+  paginate: true,
+  
+  unique_field: true,
+  unique_text_field: "page_title",
+
+  has_log: true,
+}
+
+//Custom route for site_pages
+router.get('/menu', (req, res) => {
+  ClassDatabase.findMenu()
+    .then(items => {
+      return res.json(items);
     })
     .catch(err => {
-      res.status(500).json({ message: 'Failed to get site_pages' });
+      res.status(500).json({ message: 'Failed to get items' });
     });
 })
 
+
+//BASIC ROUTES
+router.get('/', async (req, res) => {
+  basicRouter.getAll(req, res, ClassDatabase, classSettings)
+})
+
 router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-
-  const site_page = await SitePages.findById(id)
-  if (site_page) {
-    res.json(site_page)
-  } else {
-    res.status(404).json({ message: 'Could not find site_page with given id.' })
-  }
-
+  basicRouter.getRecord(req, res, ClassDatabase, classSettings)
 });
 
 router.post('/', authenticate.user_restricted, async (req, res) => {
-  const site_pageData = req.body;
-
-  if (await SitePages.findByName(site_pageData.page_title)) {
-    res.status(400).json({ message: "A record with this name already exists." })
-  } else {
-    SitePages.add(site_pageData)
-      .then(site_page => {
-        log(req, {}, site_page)
-        res.status(201).json(site_page);
-      })
-      .catch(err => {
-        res.status(500).json({ message: 'Failed to create new site_page', err: site_pageData });
-      });
-  }
+  basicRouter.newRecord(req, res, ClassDatabase, classSettings)
 });
-
 
 router.put('/:id', authenticate.user_restricted, async (req, res) => {
-  const { id } = req.params;
-  const changes = req.body;
-
-
-  const site_page = await SitePages.findById(id)
-  if (await SitePages.findByName(changes.page_title, id)) {
-    res.status(400).json({ message: "A record with this name already exists." })
-  } else {
-    SitePages.update(changes, id)
-      .then(updatedSitePage => {
-        log(req, site_page)
-        res.json(updatedSitePage);
-      })
-      .catch(err => {
-        res.status(500).json({ message: 'Failed to update site_page' });
-      });
-  }
+  basicRouter.editRecord(req, res, ClassDatabase, classSettings)
 });
-
 
 router.delete('/:id', authenticate.user_restricted, async (req, res) => {
-  const { id } = req.params;
-
-  const site_page = await SitePages.findById(id)
-
-  SitePages.remove(id)
-    .then(deleted => {
-      log(req, site_page)
-      res.send("Success.")
-    })
-    .catch(err => { res.status(500).json({ message: 'Failed to delete site_page' }) });
-
+  basicRouter.deleteRecord(req, res, ClassDatabase, classSettings)
 });
+
+
 
 
 module.exports = router;

@@ -1,5 +1,7 @@
 const db = require('../../../../data/dbConfig.js');
+const basicRest = require('../../helpers/model_helpers')
 
+//AVAILABLE CALLS
 module.exports = {
   find,
   findById,
@@ -8,54 +10,54 @@ module.exports = {
   remove
 };
 
+//SEARCH HELPERS
+const {
+  searchQuery,
+  filterQuery
+} = require('../../helpers/search_helpers')
 
-function find(filter, kind) {
-  let query = db('support_tickets')
-  if(filter != "") {
-    query = query.where('support_ticket_state', filter)
-  } 
-  if(kind != "") {
-    query = query.where('support_ticket_kind', kind)
-  }
+//CLASS SETTINGS
+const classDbSettings = {
+  database: 'support_tickets',
+  id_field: 'support_ticket_id',
+  select_fields: [
+    'support_ticket_id',
+    'support_ticket_kind',
+    'support_ticket_message',
+    'support_ticket_name',
+    'support_ticket_email',
+    'require_update',
+    'support_ticket_state',
+  ],
+  record_fields: [
+    'public_notes_text',
+    'private_notes_text'
+  ],
+  record_callback: findById
+}
+
+//FUNCTIONS
+async function find(props) {
+  const { searchTerm, filter } = props
+  
+  let query = basicRest.find(classDbSettings)
+  query = searchQuery(query, ['support_ticket_message', 'public_notes_text', 'private_notes_text'], searchTerm)
+  query = filterQuery(query, 'support_ticket_state', filter)
+  
   return query
 }
 
-
 function findById(id) {
-  return db('support_tickets')
-    .where( 'support_ticket_id', id )
-    .first();
+  return query = basicRest.findById(id, classDbSettings)
 }
 
-function add(support_ticket) {
-  return db('support_tickets')
-    .insert(support_ticket)
-    .returning('support_ticket_id')
-    .then(res => {
-      return findById(res[0])
-    })
-    .catch(err => {
-      console.log(err)
-      return err
-    })
+function add(data) {
+  return basicRest.add(data, classDbSettings)
 }
-
 function update(changes, id) {
-  return db('support_tickets')
-    .where('support_ticket_id', id)
-    .update(changes)
-    .returning('support_ticket_id')
-    .then(res => {
-      return findById(res[0])
-    })
-    .catch(err => {
-      console.log(err)
-      return err
-    });
+  return basicRest.update(changes, id, classDbSettings)
+}
+function remove(id) {
+  return basicRest.remove(id, classDbSettings)
 }
 
-function remove(id) {
-  return db('support_tickets')
-    .where( 'support_ticket_id', id )
-    .del();
-}

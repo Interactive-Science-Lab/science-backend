@@ -1,61 +1,97 @@
 const db = require('../../../../data/dbConfig.js');
+const basicRest = require('../../helpers/model_helpers')
 
+//AVAILABLE CALLS
 module.exports = {
   find,
+  findMenu,
   findById,
   findByName,
   add,
-  update,
   remove,
-};
+  update
+}
 
+//SEARCH HELPERS
+const {
+  searchQuery,
+  filterQuery,
+  sortQuery
+} = require('../../helpers/search_helpers')
 
+//CLASS SETTINGS
+const classDbSettings = {
+  database: 'site_pages',
+  id_field: 'site_page_id',
+  unique_text: 'page_title',
+  select_fields: [
+    'site_page_id',
+    'page_title',
+    'page_status',
+    'page_symbol',
+    'page_order',
+    'page_category'
+  ],
+  record_fields: [
+    'page_body_text'
+  ],
+  record_callback: findById
+}
 
-function find() {
+//CUSTOM FUNCTIONS-------------------
+function findMenu() {
   return db('site_pages')
+  .where('page_status', 'public')
+  .orderBy('page_order')
+}
+//-----------------------------------
 
+
+//FUNCTIONS
+function find(props) {
+  const { sort, sortdir, searchTerm, filter } = props
+  let query = basicRest.find(classDbSettings)
+
+  query = searchQuery(query, ['page_title'], searchTerm)
+  query = filterQuery(query, 'page_status', filter)
+  query = sortQuery(query, sort, sortdir)
+  return query
 }
 
 function findById(id) {
-  return db('site_pages')
-    .where( 'site_page_id', id )
-    .first();
+  let query = basicRest.findById(id, classDbSettings)
+  return query
 }
-
 function findByName(name, excludingId = null) {
-  if(excludingId) {
-    return db('site_pages')
-    .where('page_title', name)
-    .whereNot('site_page_id', excludingId)
-    .first()
-  } else {
-    return db('site_pages')
-    .where('page_title', name)
-    .first()
-  }
+  return basicRest.findByName(name, excludingId, classDbSettings)
 }
-
-function add(site_page) {
-  return db('site_pages')
-    .insert(site_page)
-    .returning('site_page_id')
-    .then(res => {
-      return findById(res[0])
-    })
+function add(data) {
+  return basicRest.add(data, classDbSettings)
 }
-
 function update(changes, id) {
-  return db('site_pages')
-    .where('site_page_id', id)
-    .update(changes)
-    .returning('site_page_id')
-    .then(res => {
-      return findById(res[0])
-    })
+  return basicRest.update(changes, id, classDbSettings)
+}
+function remove(id) {
+  return basicRest.remove(id, classDbSettings)
 }
 
-function remove(id) {
-  return db('site_pages')
-    .where( 'site_page_id', id )
-    .del();
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

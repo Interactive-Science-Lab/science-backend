@@ -1,6 +1,7 @@
 const db = require('../../../../data/dbConfig.js');
-const knex = require('knex')
+const basicRest = require('../../helpers/model_helpers')
 
+//AVAILABLE CALLS
 module.exports = {
   find,
   tagCloud,
@@ -8,99 +9,85 @@ module.exports = {
   findById,
   findByName,
   add,
-  update,
   remove,
-};
+  update
+}
 
+//SEARCH HELPERS
+const {
+  joinThumbnail,
+  joinUser,
+  searchQuery,
+  tagsQuery,
+  filterQuery,
+  sortQuery
+} = require('../../helpers/search_helpers')
 
+//CLASS SETTINGS
+const classDbSettings = {
+  database: 'site_blogs',
+  id_field: 'site_blog_id',
+  unique_text: 'blog_title',
+  tag_field: 'blog_tags',
+  select_fields: [
+    'site_blog_id',
+    'author_id',
+    'blog_title',
+    'blog_tags',
+    'blog_description',
+    'blog_status',
+    'blog_category',
+    'created_at'
+  ],
+  record_fields: [
+    'blog_text'
+  ],
+  record_callback: findById
+}
 
-function find(sort, sortdir, searchTerm, category, tag, filter) {
-  let query = db('site_blogs')
-    .orderBy(sort, sortdir)
-    .select('site_blog_id',
-      'author_id',
-      'username AS author_username',
-      'blog_title',
-      'blog_tags',
-      'blog_description',
-      'blog_status',
-      'blog_category',
-      'created_at')
-    .leftJoin('users', 'site_blogs.author_id', 'users.user_id')
+//FUNCTIONS
+async function find(props) {
+  const { sort, sortdir, searchTerm, category, tag, filter } = props
+  
+  let query = basicRest.find(classDbSettings)
     .andWhere('blog_category', category)
-    .andWhere('blog_status', filter)
-    .where('blog_title', 'iLIKE', `%${searchTerm}%`)
 
-
-  if (tag !== "") { query = query.where(db.raw(`'${tag}' = ANY(blog_tags)`)) }
-
+  query = searchQuery(query, ['blog_title', 'blog_description'], searchTerm)
+  query = tagsQuery(query, 'blog_tags', tag)
+  query = filterQuery(query, 'blog_status', filter)
+  query = sortQuery(query, sort, sortdir)
+  query = joinThumbnail(query, 'site_blogs.site_blog_id', 'SiteBlog')
+  query = joinUser(query, 'site_blogs.author_id', ['username AS author_username', 'user_email'])
+  
   return query
-
-}
-
-function tagCloud(category) {
-  return db('site_blogs')
-    .where('blog_category', category)
-    .andWhere('blog_status', 'public')
-    .pluck('blog_tags')
-}
-
-function listOfNames() {
-  return db('site_blogs')
-    .select('blog_title', 'site_blog_id')
 }
 
 function findById(id) {
-  return db('site_blogs')
-    .select('site_blog_id',
-      'author_id',
-      'username AS author_username',
-      'blog_title',
-      'blog_text',
-      'blog_tags',
-      'blog_description',
-      'blog_status',
-      'blog_category',
-      'created_at')
-    .leftJoin('users', 'site_blogs.author_id', 'users.user_id')
-    .where('site_blog_id', id)
-    .first();
+  let query = basicRest.findById(id, classDbSettings)
+
+  query = joinUser(query, 'site_blogs.author_id', ['username AS author_username', 'user_email'])
+  return query
 }
 
+async function tagCloud(category) {
+  const tags = await basicRest.tagCloud(classDbSettings)
+    .where('blog_category', category)
+    .andWhere('blog_status', 'public')
+  return basicRest.returnTags(tags)
+}
+
+function listOfNames() {
+  return basicRest.listOfNames(classDbSettings)
+}
 function findByName(name, excludingId = null) {
-  if (excludingId) {
-    return db('site_blogs')
-      .where('blog_title', name)
-      .whereNot('site_blog_id', excludingId)
-      .first()
-  } else {
-    return db('site_blogs')
-      .where('blog_title', name)
-      .first()
-  }
+  return basicRest.findByName(name, excludingId, classDbSettings)
 }
-
-function add(site_blog) {
-  return db('site_blogs')
-    .insert(site_blog)
-    .returning('site_blog_id')
-    .then(res => {
-      return findById(res[0])
-    })
+function add(data) {
+  return basicRest.add(data, classDbSettings)
 }
-
 function update(changes, id) {
-  return db('site_blogs')
-    .where('site_blog_id', id)
-    .update(changes)
-    .returning('site_blog_id')
-    .then(res => {
-      return findById(res[0])
-    })
+  return basicRest.update(changes, id, classDbSettings)
 }
-
 function remove(id) {
-  return db('site_blogs')
-    .where('site_blog_id', id)
-    .del();
+  return basicRest.remove(id, classDbSettings)
 }
