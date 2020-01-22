@@ -12,30 +12,29 @@ module.exports = {
 
 async function getAll(req, res, ClassDatabase, classSettings) {
     let ss = {
-        sort: req.query.sort || classSettings.defaultAllSettings.sort,
-        sortdir: req.query.sortdir || classSettings.defaultAllSettings.sortdir,
+        sort: req.query.sort || classSettings.defaultAllSettings.sort || "",
+        sortdir: req.query.sortdir || classSettings.defaultAllSettings.sortdir || "ASC",
         searchTerm: req.query.search || classSettings.defaultAllSettings.search || "",
-        filter: req.query.filter || classSettings.defaultAllSettings.filter,
+        filter: req.query.filter || classSettings.defaultAllSettings.filter || 'all',
         tag: req.query.tag || classSettings.defaultAllSettings.tag || "",
         category: req.query.category || classSettings.defaultAllSettings.category || "",
         kind: req.query.kind || classSettings.defaultAllSettings.kind || ""
     }
 
-    console.log(ss)
-
     try {
+        
         let returnResults = await ClassDatabase.find(ss) 
         if(classSettings.paginate) { 
-            returnResults = paginateHelpers.results(req, returnResults) 
+            returnResults = paginateHelpers.results(req, returnResults, classSettings) 
         }
         return res.json(returnResults);
     } catch {
-        res.status(500).json({ message: 'Failed to get items.' });
+        res.status(500).json({message: 'Failed to get items.' });
     }
 
 }
 
-async function getRecord(req, res, ClassDatabase, classSettings) {
+async function getRecord(req, res, ClassDatabase, classSettings, respond = true) {
     const { id } = req.params;
 
     let item = await ClassDatabase.findById(id)
@@ -44,9 +43,11 @@ async function getRecord(req, res, ClassDatabase, classSettings) {
             const thumbnail = await Images.getThumbnail(classSettings.formClass, id) 
             item = {...item, thumbnail}
         }
-        res.json(item)
+        if(respond) { res.json(item) } else { return item }
     } else {
-        res.status(404).json({ message: 'Could not find item with given id.' })
+        if(respond) {  
+            res.status(404).json({ message: 'Could not find item with given id.' })
+        } else { return false }
     }
 }
 

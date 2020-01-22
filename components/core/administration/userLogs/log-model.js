@@ -1,8 +1,9 @@
 const db = require('../../../../data/dbConfig.js');
+const basicRest = require('../../helpers/model_helpers')
 
+//AVAILABLE CALLS
 module.exports = {
   find,
-  findUnconfirmed,
   findById,
   confirmAll,
   add,
@@ -10,57 +11,59 @@ module.exports = {
   remove
 };
 
+//SEARCH HELPERS
+const {
+  searchQuery,
+  filterQuery,
+  joinUser
+} = require('../../helpers/search_helpers')
 
-
-function findUnconfirmed() {
-  return db('logs')
-  .select('logs.*', 'submitter.username AS submitter_username')
-  .leftJoin('users as submitter', 'logs.log_submitting_user_id', 'submitter.user_id')
-  .whereNull('log_confirmed')
-  .limit(50)
+//CLASS SETTINGS
+const classDbSettings = {
+  database: 'logs',
+  id_field: 'log_id',
+  select_fields: [
+    'log_id',
+    'log_submitting_user_id',
+    'log_confirming_user_id',
+    'route',
+    'method',
+    'changes',
+    'previous',
+    'notes',
+    'log_confirmed',
+    'object_id'
+  ],
+  record_fields: [],
+  record_callback: findById
 }
 
-function find() {
-  return db('logs')
-  .select('logs.*', 'submitter.username AS submitter_username', 'confirmer.username AS confirmer_username')
-  .leftJoin('users as submitter', 'logs.log_submitting_user_id', 'submitter.user_id')
-  .leftJoin('users as confirmer', 'logs.log_confirming_user_id', 'confirmer.user_id')
-  .limit(50)
+//FUNCTIONS
+function find(props) {
+  const { searchTerm, filter } = props
+  let query = basicRest.find(classDbSettings)
+  query = searchQuery(query, ['previous', 'changes', 'notes'], searchTerm)
+  query = filterQuery(query, 'log_confirmed', filter === 'all' ? filter : (filter === 'confirmed' ? true : null))
+  query = joinUser(query, 'logs.log_submitting_user_id', ['submitter.username AS submitter_username'], 'submitter')
+  query = joinUser(query, 'logs.log_confirming_user_id', ['confirmer.username AS confirmer_username'], 'confirmer')
+  return query
+}
+
+function findById(id) {
+  return query = basicRest.findById(id, classDbSettings)
+}
+function add(data) {
+  return basicRest.add(data, classDbSettings)
+}
+function update(changes, id) {
+  return basicRest.update(changes, id, classDbSettings)
+}
+function remove(id) {
+  return basicRest.remove(id, classDbSettings)
 }
 
 function confirmAll() {
   return db('logs')
   .whereNull('log_confirmed')
   .update('log_confirmed', true)
-}
-
-function findById(id) {
-  return db('logs')
-    .where( 'log_id', id )
-    .first();
-}
-
-function add(log) {
-  return db('logs')
-    .insert(log)
-    .returning('log_id')
-    .then(res => {
-      return findById(res[0])
-    })
-}
-
-function update(changes, id) {
-  return db('logs')
-    .where('log_id', id)
-    .update(changes)
-    .returning('log_id')
-    .then(res => {
-      return findById(res[0])
-    })
-}
-
-function remove(id) {
-  return db('logs')
-    .where( 'log_id', id )
-    .del();
 }

@@ -1,5 +1,5 @@
 exports.seed = function(knex) {
-    return knex('end_users').insert([
+    return knex('admin_users').insert([
       {
         foreign_user_id: 1,
       },

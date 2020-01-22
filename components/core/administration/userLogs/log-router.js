@@ -1,46 +1,43 @@
 const express = require('express');
+const router = express.Router();
 
 const Logs = require('../userLogs/log-model.js');
 
-const {user_restricted, mod_restricted, admin_restricted} = require('../../accounts/restricted-middleware.js')
+const authenticate = require('../../accounts/restricted-middleware.js')
+const basicRouter = require('../../helpers/router_helpers')
 
-const router = express.Router();
+const classSettings = {
+  formClass: "Logs",
+  fileName: 'log',
+  defaultAllSettings: { filter: 'confirmed' },
+  paginate: true,
+  pageSize: 10
+}
+const ClassDatabase = require(`./${classSettings.fileName}-model.js`);
 
-router.get('/all', user_restricted, admin_restricted, (req, res) => {
-  Logs.find()
-  .then(logs => {
-    res.json(logs);
-  })
-  .catch(err => {
-    res.status(500).json({ message: 'Failed to get logs' });
-  });
+//BASIC ROUTES
+router.get('/', async (req, res) => {
+  basicRouter.getAll(req, res, ClassDatabase, classSettings)
+})
+
+router.get('/:id', async (req, res) => {
+  basicRouter.getRecord(req, res, ClassDatabase, classSettings)
 });
 
-router.get('/unconfirmed', user_restricted, admin_restricted, (req, res) => {
-  Logs.findUnconfirmed()
-  .then(logs => {
-    res.json(logs);
-  })
-  .catch(err => {
-    res.status(500).json({ message: 'Failed to get logs' });
-  });
+router.post('/', authenticate.user_restricted, async (req, res) => {
+  basicRouter.newRecord(req, res, ClassDatabase, classSettings)
 });
 
-router.get('/:id', user_restricted, admin_restricted, (req, res) => {
-  const { id } = req.params;
-
-  Logs.findById(id)
-  .then(log => {
-    if (log) {
-      res.json(log)
-    } else {
-      res.status(404).json({ message: 'Could not find log with given id.' })
-    }
-  })
-  .catch(err => {res.status(500).json({ message: 'Failed to get logs' });});
+router.put('/:id', authenticate.user_restricted, async (req, res) => {
+  basicRouter.editRecord(req, res, ClassDatabase, classSettings)
 });
 
-router.put('/:id/undo', user_restricted, admin_restricted, async (req, res) => {
+router.delete('/:id', authenticate.user_restricted, async (req, res) => {
+  basicRouter.deleteRecord(req, res, ClassDatabase, classSettings)
+});
+
+
+router.put('/:id/undo', authenticate.admin_restricted, async (req, res) => {
   const user_id = req.decodedToken.user.user_id
   const id = req.params.id
   const notes = req.body.notes
@@ -116,14 +113,14 @@ router.put('/:id/undo', user_restricted, admin_restricted, async (req, res) => {
 
 })
 
-router.put('/:id/confirm', user_restricted, admin_restricted, async (req, res) => {
+router.put('/:id/confirm', authenticate.admin_restricted, async (req, res) => {
   const user_id = req.decodedToken.user.user_id
   const id = req.params.id
   const notes = req.body.notes
   res.json(await Logs.update( {notes, log_confirmed: true, log_confirming_user_id: user_id} , id))
 })
 
-router.put('/confirm_all', user_restricted, admin_restricted, async (req, res) => {
+router.put('/confirm_all', authenticate.admin_restricted, async (req, res) => {
   await Logs.confirmAll()
   res.json({message: "Success"})
 })

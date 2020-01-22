@@ -3,12 +3,11 @@ const express = require('express');
 const Users = require('../user-model.js');
 
 const {user_restricted, mod_restricted, admin_restricted} = require('../../restricted-middleware.js')
-const {log} = require('../../../administration/userLogs/log-middleware.js')
 
 const router = express.Router();
 
 //ALL items on this page are at least mod_restricted
-router.use(user_restricted, mod_restricted)
+router.use(mod_restricted)
 
 //MODERATOR ROUTES
 //Returns a list of users that can probably be searched

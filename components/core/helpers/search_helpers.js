@@ -23,10 +23,15 @@ function joinThumbnail(query, id_field, foreign_class) {
     })
 }
 
-function joinUser(query, id_field, select_fields) {
+function joinUser(query, id_field, select_fields, alias = 'users') {
+  //Set table and alias, accounting for if an alias is present. 
+  //It may be the case there are two different (creator & confirmer, etc.) on an object.
+  let table = 'users'
+  if(alias != 'users') { table = `users as ${alias}` }
+
   return query
   .select(select_fields)
-  .leftJoin('users', id_field, 'users.user_id')
+  .leftJoin(table, id_field, `${alias}.user_id`)
 }
 
 function searchQuery(query, fields, term) {
@@ -43,7 +48,6 @@ function tagsQuery(query, field, tag) {
 }
 
 function filterQuery(query, field, filter) {
-  console.log(filter, filter === 'all')
   if(filter !== 'all'){
     query = query.andWhere(field, filter)
   }
@@ -51,5 +55,6 @@ function filterQuery(query, field, filter) {
 }
 
 function sortQuery(query, sort, sortdir) {
+  if(!sort || !sortdir) { console.log("ERROR WARNING- Invalid input- Please make sure default sort field is set.") }
   return query.orderBy(sort, sortdir)
 }

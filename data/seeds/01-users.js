@@ -52,7 +52,7 @@ exports.seed = function (knex) {
             password: password,
             username: "enduser",
             user_email: "asdff@gmail.com",
-            user_role: 3,
+            user_role: 1,
             user_kind: "end_user",
             user_verified: true
         }
