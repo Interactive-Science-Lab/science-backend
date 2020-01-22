@@ -1,4 +1,5 @@
 const basicRest = require('../../helpers/model_helpers')
+const db = require('../../../../data/dbConfig.js');
 
 //AVAILABLE CALLS
 module.exports = {

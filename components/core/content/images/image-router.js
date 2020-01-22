@@ -71,9 +71,11 @@ router.post('/', user_restricted, multerUploads, cloudinaryConfig, (req, res) =>
 
 
 
-router.put('/:id', user_restricted, multerUploads, cloudinaryConfig, (req, res) => {
+router.put('/:id', user_restricted, multerUploads, cloudinaryConfig,  (req, res) => {
   const { id } = req.params;
   const imageData = req.body;
+
+ console.log("HEY", id, imageData)
 
   if(req.file) {
     const imageFile = req.file;

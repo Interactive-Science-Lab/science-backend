@@ -1,6 +1,7 @@
 
 exports.seed = function(knex) {
   return knex('site_pages').insert([
+ 
     {
       page_title: "Overview",
       page_body_text: "",

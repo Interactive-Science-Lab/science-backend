@@ -1,6 +1,7 @@
 
 exports.seed = function(knex) {
   return knex('site_blogs').insert([
+
     {
       author_id: 1,
       blog_title: "Gamma Version Release",
