@@ -66,8 +66,3 @@ router.get('/dashboard', authenticate.user_restricted, (req, res) => {
       res.json(userProfile)
     });
 })
-
-
-
-
-module.exports = router;

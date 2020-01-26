@@ -40,7 +40,7 @@ async function getRecord(req, res, ClassDatabase, classSettings, respond = true)
     let item = await ClassDatabase.findById(id)
     if (item) {
         if(classSettings.has_thumbnail) { 
-            const thumbnail = await Images.getThumbnail(classSettings.formClass, id) 
+            const thumbnail = await Images.getThumbnail(classSettings.formClass, id)
             item = {...item, thumbnail}
         }
         if(respond) { res.json(item) } else { return item }

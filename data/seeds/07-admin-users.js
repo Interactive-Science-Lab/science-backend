@@ -5,9 +5,6 @@ exports.seed = function(knex) {
       },
       {
         foreign_user_id: 2,
-      },
-      {
-        foreign_user_id: 3,
       }
     ])
   };

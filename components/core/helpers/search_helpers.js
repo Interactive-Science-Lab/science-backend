@@ -12,7 +12,7 @@ module.exports = {
 
 function joinThumbnail(query, id_field, foreign_class) {
   return query
-    .select('image_url', 'image_source')
+    .select('image_url', 'image_source', 'image_id')
     .leftJoin('images', id_field, 'images.foreign_id')
     .andWhere(function () {
       this.where(function () {
