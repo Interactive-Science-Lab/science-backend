@@ -5,6 +5,7 @@ const core_path = "../components/core/"
 const account_path = core_path + "accounts/"
 const administration_path = core_path + "administration/"
 const content_path = core_path + "content/"
+const main_path = "../components/main/"
 
 const components = [
     //User & auth information
@@ -18,9 +19,14 @@ const components = [
     {url: '/pages', path: content_path, folder: "sitePages/", file: "site_page"},
     {url: '/posts', path: content_path, folder: "siteBlogs/", file: "site_blog"},
     {url: '/images', path: content_path, folder: "images/", file: "image"},
+
+    {url: '/experiments', path: main_path, folder: 'experiments/', file: ''},
+    {url: '/containers', path: main_path, folder: 'containers/', file: ''},
+    {url: '/objects', path: main_path, folder: 'objectItems/', file: ''},
+    {url: '/substances', path: main_path, folder: 'substances/', file: ''},
 ]
 
-components.map(({url, path, folder, file}) => server.use(url, require(`${path}${folder}${file}-router.js`)))
+components.map(({url, path, folder, file}) => server.use(url, require(`${path}${folder}${file !== '' ? file + "-" : ''}router.js`)))
 
 
 module.exports = server
