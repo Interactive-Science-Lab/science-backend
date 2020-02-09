@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
         tbl.text('experiment_description');
         tbl.integer('experiment_order');
         tbl.text('experiment_steps');
-        tbl.json('experiment_start');
+        tbl.specificType('experiment_start', 'text ARRAY');
       })
   
   };
