@@ -53,7 +53,7 @@ async function getRecord(req, res, ClassDatabase, classSettings, respond = true)
 
 async function newRecord(req, res, ClassDatabase, classSettings) {
     const itemData = req.body;
-    if(classSettings.has_creator) { itemData[classSettings[creator_field]] = req.decodedToken.user.user_id }
+    if(classSettings.has_creator) { itemData[classSettings.creator_field] = req.decodedToken.user.user_id }
 
     if (classSettings.unique_field && await ClassDatabase.findByName(itemData[classSettings.unique_text_field])) {
         res.status(400).json({ message: "A record with this name already exists." })
