@@ -7,7 +7,7 @@ const authenticate = require('../../core/accounts/restricted-middleware.js')
 const basicRouter = require('../../core/helpers/router_helpers')
 
 const classSettings = {
-  formClass: "Container",
+  formClass: "Tool",
   defaultAllSettings: { sort: "display_name", sortdir: "asc" },
   paginate: true,
 

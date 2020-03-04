@@ -19,17 +19,15 @@ const {
 
 //CLASS SETTINGS
 const classDbSettings = {
-  database: 'containers',
+  database: 'tools',
   id_field: 'container_id',
   unique_text: 'display_name',
   select_fields: [
-    "container_id",
+    "tool_id",
     "display_name",
     "description",
     "sprite",
-    "properties",
-    "hold_volume",
-    "mass",
+    "properties"
   ],
   record_fields: [],
   record_callback: findById
