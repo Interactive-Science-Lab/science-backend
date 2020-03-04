@@ -8,11 +8,11 @@ const basicRouter = require('../../core/helpers/router_helpers')
 
 const classSettings = {
   formClass: "ObjectItem",
-  defaultAllSettings: { sort: "object_name", sortdir: "ASC" },
+  defaultAllSettings: { sort: "display_name", sortdir: "ASC" },
   paginate: true,
 
   unique_field: true,
-  unique_text_field: "object_name",
+  unique_text_field: "display_name",
 
 }
 

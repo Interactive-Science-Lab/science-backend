@@ -26,6 +26,7 @@ const classDbSettings = {
     "experiment_id",
     "experiment_name",
     "experiment_description",
+    "experiment_class"
   ],
   record_fields: [
     "experiment_steps",

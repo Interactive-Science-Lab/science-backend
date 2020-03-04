@@ -21,14 +21,21 @@ const {
 const classDbSettings = {
   database: 'substances',
   id_field: 'substance_id',
-  unique_text: 'substance_name',
+  unique_text: 'display_name',
   select_fields: [
     "substance_id",
-    "substance_name",
-    "substance_density",
-    "substance_dispense_volume",
-    "substance_state_of_matter",
-    "substance_scientific_name"
+    "display_name",
+    "scientific_name",
+    "description",
+    "color",
+    "texture",
+    "container",
+    "properties",
+    "density",
+    "ph",
+    "temperature",
+    "low_temp_point",
+    "high_temp_point"
   ],
   record_fields: [],
   record_callback: findById

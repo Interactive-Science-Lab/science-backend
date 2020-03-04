@@ -1,25 +1,70 @@
 exports.seed = function (knex) {
   return knex('object_items').insert([
     {
-      object_name: "Small Rock",
-      object_description: "A small piece of gravel you could find on the ground.",
-      object_weight: 15,
-      object_volume: 5,
-      object_image: 'Survival_256_090.png'
+      display_name: "Osmium Chunk",
+      description: "",
+      scientific_name: "",
+      sprite: "",
+      properties: [],
+      volume: 50,
+      mass: 100,
+      ph: 7,
+      temperature: 70,
+      low_temp_point: 200,
+      high_temp_point: 300
     },
     {
-      object_name: "Bolt",
-      object_description: "Like a screw, but without a pointy tip.",
-      object_weight: 5,
-      object_volume: 2,
-      object_image: 'Survival_256_095.png'
+      display_name: "Iron",
+      description: "",
+      scientific_name: "",
+      sprite: "",
+      properties: [],
+      volume: 50,
+      mass: 100,
+      ph: 7,
+      temperature: 70,
+      low_temp_point: 200,
+      high_temp_point: 300
     },
     {
-      object_name: "Rubberball",
-      object_description: "A small bouncy ball.",
-      object_weight: 1,
-      object_volume: 2,
-      object_image: 'Material2_256_138.png'
+      display_name: "Gold Piece",
+      description: "",
+      scientific_name: "",
+      sprite: "",
+      properties: [],
+      volume: 50,
+      mass: 100,
+      ph: 7,
+      temperature: 70,
+      low_temp_point: 200,
+      high_temp_point: 300
+    },
+    {
+      display_name: "Marble",
+      description: "",
+      scientific_name: "",
+      sprite: "",
+      properties: [],
+      volume: 50,
+      mass: 100,
+      ph: 7,
+      temperature: 70,
+      low_temp_point: 200,
+      high_temp_point: 300
+    },
+    {
+      display_name: "Bolt",
+      description: "",
+      scientific_name: "",
+      sprite: "",
+      properties: [],
+      volume: 50,
+      mass: 100,
+      ph: 7,
+      temperature: 70,
+      low_temp_point: 200,
+      high_temp_point: 300
     }
   ])
 };
+

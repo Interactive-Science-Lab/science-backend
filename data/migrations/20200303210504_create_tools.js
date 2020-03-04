@@ -1,17 +1,14 @@
-
 exports.up = function(knex, Promise) {
     // don't forget the return statement
     return knex.schema
-      .createTable('containers', tbl => {
-        tbl.increments('container_id');
+      .createTable('tools', tbl => {
+        tbl.increments('tools_id');
         tbl.text('display_name');
         tbl.text('description');
+        tbl.text('instructions');
         
         tbl.text('sprite');
         tbl.specificType('properties', 'text ARRAY');
-
-        tbl.integer('mass');
-        tbl.integer('hold_volume');
       })
   
   };

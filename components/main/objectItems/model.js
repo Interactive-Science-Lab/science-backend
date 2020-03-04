@@ -21,16 +21,20 @@ const {
 const classDbSettings = {
   database: 'object_items',
   id_field: 'object_item_id',
-  unique_text: 'object_name',
+  unique_text: 'display_name',
   select_fields: [
     "object_item_id",
-    "object_name",
-    "object_description",
-    "object_volume",
-    "object_weight",
-    "object_volume_variance",
-    "object_weight_variance",
-    "object_image"
+    "display_name",
+    "scientific_name",
+    "description",
+    "volume",
+    "mass",
+    "ph",
+    "temperature",
+    "low_temp_point",
+    "high_temp_point",
+    "sprite",
+    "properties"
   ],
   record_fields: [],
   record_callback: findById

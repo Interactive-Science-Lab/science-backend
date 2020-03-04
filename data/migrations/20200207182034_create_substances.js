@@ -3,11 +3,21 @@ exports.up = function(knex, Promise) {
     return knex.schema
       .createTable('substances', tbl => {
         tbl.increments('substance_id');
-        tbl.text('substance_name');
-        tbl.integer('substance_density');
-        tbl.integer('substance_dispense_volume');
-        tbl.text('substance_state_of_matter');
-        tbl.text('substance_scientific_name');
+        tbl.text('display_name');
+        tbl.text('scientific_name');
+        tbl.text('description');
+
+        tbl.text('color') //sky-blue, grey-blue
+        tbl.text('texture') //liquid, powder, sm-granules, md-granules, lg-granule
+        tbl.text('container') //jar, etc.
+        tbl.specificType('properties', 'text ARRAY'); //hydrophillic, flammable
+
+        tbl.float('density');
+        tbl.float('ph');
+        tbl.float('temperature');
+        tbl.integer('low_temp_point');
+        tbl.integer('high_temp_point');
+
       })
   
   };

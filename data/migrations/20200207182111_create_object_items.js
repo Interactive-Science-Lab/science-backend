@@ -3,13 +3,21 @@ exports.up = function(knex, Promise) {
     return knex.schema
       .createTable('object_items', tbl => {
         tbl.increments('object_item_id');
-        tbl.text('object_name');
-        tbl.text('object_description');
-        tbl.integer('object_volume');
-        tbl.integer('object_weight');
-        tbl.integer('object_volume_variance');
-        tbl.integer('object_weight_variance')
-        tbl.text('object_image');
+        tbl.text('display_name');
+        tbl.text('description');
+        tbl.text('scientific_name');
+
+        tbl.text('sprite');
+        tbl.specificType('properties', 'text ARRAY');
+
+        tbl.float('volume');
+        tbl.float('mass');
+        tbl.float('ph');
+        tbl.float('temperature');
+
+        tbl.integer('low_temp_point');
+        tbl.integer('high_temp_point');
+
       })
   };
   
