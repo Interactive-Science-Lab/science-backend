@@ -24,6 +24,7 @@ const components = [
     {url: '/containers', path: main_path, folder: 'containers/', file: ''},
     {url: '/objects', path: main_path, folder: 'objectItems/', file: ''},
     {url: '/substances', path: main_path, folder: 'substances/', file: ''},
+    {url: '/tools', path: main_path, folder: 'tools/', file: ''},
 ]
 
 components.map(({url, path, folder, file}) => server.use(url, require(`${path}${folder}${file !== '' ? file + "-" : ''}router.js`)))
