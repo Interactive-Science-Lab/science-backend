@@ -8,6 +8,7 @@ exports.up = function(knex, Promise) {
         tbl.text('scientific_name');
 
         tbl.text('sprite');
+        tbl.text('color');
         tbl.specificType('properties', 'text ARRAY');
 
         tbl.float('volume');

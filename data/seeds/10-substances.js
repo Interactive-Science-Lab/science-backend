@@ -54,7 +54,7 @@ exports.seed = function (knex) {
       description: "Just add some water",
 
       color: "grey",
-      texture: "granules",
+      texture: "granule",
       container: "bowl",
       properties: ['hydrophillic'],
 

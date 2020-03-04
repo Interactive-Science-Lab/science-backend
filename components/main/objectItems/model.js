@@ -34,6 +34,7 @@ const classDbSettings = {
     "low_temp_point",
     "high_temp_point",
     "sprite",
+    "color",
     "properties"
   ],
   record_fields: [],
