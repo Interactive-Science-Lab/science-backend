@@ -1,7 +1,7 @@
 exports.up = function(knex, Promise) {
     // don't forget the return statement
     return knex.schema
-      .createTable('tools', tbl => {
+      .createTable('toolsa', tbl => {
         tbl.increments('tool_id');
         tbl.text('display_name');
         tbl.text('description');
@@ -16,6 +16,7 @@ exports.up = function(knex, Promise) {
   exports.down = function(knex, Promise) {
     // drops the entire table
     return knex.schema
-      .dropTableIfExists('containers');
+      .dropTableIfExists('tools')
+      .dropTableIfExists('toolsa');
   };
 
