@@ -2,7 +2,7 @@ exports.up = function(knex, Promise) {
     // don't forget the return statement
     return knex.schema
       .createTable('tools', tbl => {
-        tbl.increments('tools_id');
+        tbl.increments('tool_id');
         tbl.text('display_name');
         tbl.text('description');
         tbl.text('instructions');

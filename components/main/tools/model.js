@@ -27,7 +27,8 @@ const classDbSettings = {
     "display_name",
     "description",
     "sprite",
-    "properties"
+    "properties",
+    "instructions"
   ],
   record_fields: [],
   record_callback: findById
