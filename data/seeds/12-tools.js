@@ -45,7 +45,7 @@ exports.seed = function (knex) {
     {
       display_name: "Measuring Spoon",
       properties: ['scoop', 'scoop-solid-10'],
-      sprite: 'measuring',
+      sprite: 'measuringspoon',
       description: "Allows you to grab small quantities of solid substances.",
       instructions: "Drag the Measuring Spoon to a substance to grab 10mL of the substance. Then, drag to a container to add the substance in.",
     },
