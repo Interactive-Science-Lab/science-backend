@@ -49,14 +49,30 @@ exports.seed = function (knex) {
       high_temp_point: 212
     },
     {
-      display_name: "Hydrophillic Beads",
+      display_name: "Hydrophillic Beads (sm)",
       scientific_name: "",
       description: "Just add some water",
 
       color: "grey",
       texture: "granule",
       container: "bowl",
-      properties: ['hydrophillic'],
+      properties: ['hydrophillic-01'],
+
+      density: 1,
+      ph: 7,
+      temperature: 70,
+      low_temp_point: 200,
+      high_temp_point: 300
+    },
+    {
+      display_name: "Hydrophillic Beads (lg)",
+      scientific_name: "",
+      description: "Just add some water",
+
+      color: "grey",
+      texture: "ball",
+      container: "none",
+      properties: ['hydrophillic', 'hydrophillic-10'],
 
       density: 1,
       ph: 7,

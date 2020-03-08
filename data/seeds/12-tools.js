@@ -55,6 +55,13 @@ exports.seed = function (knex) {
       sprite: 'measuring',
       description: "Allows you to grab solid substances.",
       instructions: "Drag the Measuring Cup to a substance to grab 10mL of the substance. Then, drag to a container to add the substance in.",
+    },
+    {
+      display_name: "Timer",
+      properties: ['timer'],
+      sprite: 'timer',
+      description: "Allows you to measure time & simulate it passing.",
+      instructions: "Drag an item to the timer (or vice-versa) and click the 'clock' button to go forward 5 minutes.",
     }
   ])
 };
