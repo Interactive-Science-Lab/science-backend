@@ -62,6 +62,13 @@ exports.seed = function (knex) {
       sprite: 'timer',
       description: "Allows you to measure time & simulate it passing.",
       instructions: "Drag an item to the timer (or vice-versa) and click the 'clock' button to go forward 5 minutes.",
+    },
+    {
+      display_name: "Bunsen Burner",
+      properties: ['heatsource-flame'],
+      sprite: 'burner',
+      description: "Allows you to heat things up.",
+      instructions: "Drag an item to the timer (or vice-versa) and click the 'clock' button to go forward 5 minutes.",
     }
   ])
 };
