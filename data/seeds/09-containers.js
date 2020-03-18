@@ -7,8 +7,8 @@ exports.seed = function (knex) {
       sprite: "gradcyl",
       properties: ['display_volume'],
 
-      mass: 50,
-      hold_volume: 500,
+      mass: 58,
+      hold_volume: 100,
     },
     {
       display_name: "Small Dish",
