@@ -6,7 +6,7 @@ exports.seed = function (knex) {
       description: "Just some water",
 
       color: "lightblue",
-      texture: "ball",
+      texture: "liquid",
       container: "bowl",
       properties: [],
 
@@ -90,27 +90,27 @@ exports.seed = function (knex) {
       container: "bowl",
       properties: ['coolant', `{
         "0": {
-          "0": 1.0'C
-          "1": 6.0
-          "2": 2.0
-          "3": 0.5
-          "4": 0.5
+          "0": 21.0,
+          "1": 6.0,
+          "2": 2.0,
+          "3": 0.5,
+          "4": 0.5,
           "5": 0.0
         },
         "11.5":{ 
-          "0":  21'C
-          "1": 4.0
-          "2": -1.5
-          "3": -3.0
-          "4":  -5.5
+          "0":  21,
+          "1": 4.0,
+          "2": -1.5,
+          "3": -3.0,
+          "4":  -5.5,
           "5": -5.5
         },
         "23": {
-          0": 21'C
-          1": 3.0
-          2": -5.0
-          3": -7.5
-          4": -11.5
+          0": 21,
+          1": 3.0,
+          2": -5.0,
+          3": -7.5,
+          4": -11.5,
           5": -11.5
         },
         "34.5": {
@@ -122,19 +122,19 @@ exports.seed = function (knex) {
           "5": -17.5,
         },
         "46.0": {
-          "0": 21
-          "1": 1.0
-          "2": -8.0
-          "3": -13.5
-          "4": -18.0
+          "0": 21,
+          "1": 1.0,
+          "2": -8.0,
+          "3": -13.5,
+          "4": -18.0,
           "5": -18.0
         },
       }`],
-      density: 1,
-      ph: 7,
+      density: 2.16,
+      ph: 7,      
       temperature: 70,
-      low_temp_point: -100,
-      high_temp_point: 300
+      low_temp_point: 800,
+      high_temp_point: 1400
     }
   ])
 };
