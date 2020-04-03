@@ -5,9 +5,9 @@ exports.seed = function (knex) {
       scientific_name: "H20",
       description: "Just some water",
 
-      color: "blue-grey",
-      texture: "liquid",
-      container: "na",
+      color: "lightblue",
+      texture: "ball",
+      container: "bowl",
       properties: [],
 
       density: 1,

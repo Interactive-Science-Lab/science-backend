@@ -10,7 +10,7 @@ exports.seed = function (knex) {
       volume: 50,
       mass: 100,
       ph: 7,
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 200,
       high_temp_point: 300
     },
@@ -24,7 +24,7 @@ exports.seed = function (knex) {
       volume: 50,
       mass: 100,
       ph: 7,
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 200,
       high_temp_point: 300
     },
@@ -38,7 +38,7 @@ exports.seed = function (knex) {
       volume: 50,
       mass: 100,
       ph: 7,
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 200,
       high_temp_point: 300
     },
@@ -52,7 +52,7 @@ exports.seed = function (knex) {
       volume: 50,
       mass: 100,
       ph: 7,
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 200,
       high_temp_point: 300
     },
@@ -66,7 +66,7 @@ exports.seed = function (knex) {
       volume: 50,
       mass: 100,
       ph: 7,
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 200,
       high_temp_point: 300
     },
@@ -86,8 +86,8 @@ exports.seed = function (knex) {
       volume: 50,
       mass: 12,
       ph: 9,
-      temperature: 70,
-      low_temp_point: 0,
+      temperature: 20,
+      low_temp_point: 200,
       high_temp_point: 300
     }
   ])
