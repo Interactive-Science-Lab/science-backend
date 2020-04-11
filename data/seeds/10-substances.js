@@ -12,7 +12,7 @@ exports.seed = function (knex) {
 
       density: 1,
       ph: 7,
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 0,
       high_temp_point: 212
     },
@@ -28,7 +28,7 @@ exports.seed = function (knex) {
 
       density: 1,
       ph: 5,
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 0,
       high_temp_point: 212
     },
@@ -44,7 +44,7 @@ exports.seed = function (knex) {
 
       density: 1,
       ph: 9,
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 0,
       high_temp_point: 212
     },
@@ -60,7 +60,7 @@ exports.seed = function (knex) {
 
       density: 1,
       ph: 7,
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 200,
       high_temp_point: 300
     },
@@ -76,7 +76,7 @@ exports.seed = function (knex) {
 
       density: 1,
       ph: 7,
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 200,
       high_temp_point: 300
     },
@@ -90,52 +90,125 @@ exports.seed = function (knex) {
       container: "bowl",
       properties: ['coolant', `{
         "0": {
-          "0": 21.0,
-          "1": 6.0,
-          "2": 2.0,
-          "3": 0.5,
-          "4": 0.5,
-          "5": 0.0
+          "0": 0,
+          "60": 6.0,
+          "120": 2.0,
+          "180": 0.5,
+          "240": 0.5,
+          "300": 0.0
         },
-        "11.5":{ 
-          "0":  21,
-          "1": 4.0,
-          "2": -1.5,
-          "3": -3.0,
-          "4":  -5.5,
-          "5": -5.5
+        "11":{ 
+          "0":  0,
+          "60": -2.0,
+          "120": -0.5,
+          "180": -1.5,
+          "240": -4, 
+          "300": 0
         },
         "23": {
-          0": 21,
-          1": 3.0,
-          2": -5.0,
-          3": -7.5,
-          4": -11.5,
-          5": -11.5
+          "0": 0,
+          "60": -3.0,
+          "120": -8.0,
+          "180": -2.5,
+          "240": -4.5,
+          "300": 0
         },
-        "34.5": {
-          "0": 21,
-          "1":  1.5,
-          "2": -7.0,
-          "3": -12.5,
-          "4": -17.5,
-          "5": -17.5,
+        "34": {
+          "0": 0,
+          "60":  -4.5,
+          "120": -11.5,
+          "180": -5,
+          "240": -5,
+          "300": 0
         },
-        "46.0": {
-          "0": 21,
-          "1": 1.0,
-          "2": -8.0,
-          "3": -13.5,
-          "4": -18.0,
-          "5": -18.0
-        },
+        "46": {
+          "0": 0,
+          "60": -5,
+          "120": -9.0,
+          "180": -5.5,
+          "240": -4.5,
+          "300": 0
+        }
       }`],
       density: 2.16,
       ph: 7,      
-      temperature: 70,
+      temperature: 20,
       low_temp_point: 800,
       high_temp_point: 1400
-    }
+    },
+
+
+
+    {
+      display_name: "Potassium Chlorate",
+      scientific_name: "NaOH",
+      description: "Some sodium hydroxide",
+
+      color: "white",
+      texture: "granule",
+      container: "bowl",
+      properties: ['burnaway', 'burnaway-62-300'],
+
+      density: 1,
+      ph: 7,
+      temperature: 20,
+      low_temp_point: 400,
+      high_temp_point: 800
+    },
+    {
+      display_name: "Magnesium Sulfate",
+      scientific_name: "MgS04",
+      description: "Some sodium hydroxide",
+
+      color: "white",
+      texture: "granule",
+      container: "bowl",
+      properties: ['precipitate-ingredient', 'Sodium Carbonate', 'Precipitate NaMg'],
+
+      density: 1,
+      ph: 7,
+      temperature: 20,
+      low_temp_point: 400,
+      high_temp_point: 800
+    },
+    {
+      display_name: "Sodium Carbonate",
+      scientific_name: "NaC03",
+      description: "Some sodium hydroxide",
+
+      color: "white",
+      texture: "granule",
+      container: "bowl",
+      properties: ['precipitate-ingredient', 'Magnesium Sulfate', 'Precipitate NaMg'],
+
+      density: 1,
+      ph: 7,
+      temperature: 20,
+      low_temp_point: 400,
+      high_temp_point: 800
+    },
+    {
+      display_name: "Precipitate NaMg",
+      scientific_name: "NaOH",
+      description: "Some sodium hydroxide",
+
+      color: "white",
+      texture: "granule",
+      container: "bowl",
+      properties: ['precipitate'],
+
+      density: 1,
+      ph: 7,
+      temperature: 20,
+      low_temp_point: 400,
+      high_temp_point: 800
+    },
+
+
   ])
+
+
+
+  
 };
 

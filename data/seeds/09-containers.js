@@ -8,7 +8,7 @@ exports.seed = function (knex) {
       properties: ['display_volume'],
 
       mass: 58,
-      hold_volume: 100,
+      hold_volume: 500,
     },
     {
       display_name: "Small Dish",
@@ -21,14 +21,14 @@ exports.seed = function (knex) {
       hold_volume: 100,
     },
     {
-      display_name: "Ceramic Bowl",
+      display_name: "Crucible",
       description: "A ceramic bowl",
 
       sprite: "bowl",
       properties: [''],
 
-      mass: 50,
-      hold_volume: 500,
+      mass: 10,
+      hold_volume: 100,
     }
   ])
 };

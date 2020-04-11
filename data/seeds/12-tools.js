@@ -29,6 +29,13 @@ exports.seed = function (knex) {
       instructions: "Drag the strainer to the bottom left panel. Drag a container onto the strainer, and you have two options. First, you can strain the container, which takes all solids from the container and adds them to strainer. Then, using either that container or any other, you can also add items from the strainer back in, with the 'Combine' button."
     },
     {
+      display_name: "Filter Paper",
+      properties: ['strain', 'strain-solids'],
+      sprite: 'strainer-paper',
+      description: "Separates solids from liquids in a container.",
+      instructions: "Drag the strainer to the bottom left panel. Drag a container onto the strainer, and you have two options. First, you can strain the container, which takes all solids from the container and adds them to strainer. Then, using either that container or any other, you can also add items from the strainer back in, with the 'Combine' button."
+    },
+    {
       display_name: "Micro Pipette",
       properties: ['scoop', 'scoop-liquid-1'],
       sprite: 'microdropper',
@@ -43,18 +50,32 @@ exports.seed = function (knex) {
       instructions: "Drag the Eyedropper to a substance to grab 10mL of the substance. Then, drag to a container to add the substance in.",
     },
     {
-      display_name: "Measuring Spoon",
-      properties: ['scoop', 'scoop-solid-10'],
+      display_name: "Measuring Spoon (1mL)",
+      properties: ['scoop', 'scoop-solid-1'],
       sprite: 'measuringspoon',
       description: "Allows you to grab small quantities of solid substances.",
-      instructions: "Drag the Measuring Spoon to a substance to grab 10mL of the substance. Then, drag to a container to add the substance in.",
+      instructions: "Drag the Measuring Spoon to a substance to grab 1mL of the substance. Then, drag to a container to add the substance in.",
     },
     {
-      display_name: "Measuring Cup",
-      properties: ['scoop', 'scoop-solid-50'],
+      display_name: "Measuring Spoon (5mL)",
+      properties: ['scoop', 'scoop-solid-5'],
+      sprite: 'measuringspoon',
+      description: "Allows you to grab small quantities of solid substances.",
+      instructions: "Drag the Measuring Spoon to a substance to grab 5mL of the substance. Then, drag to a container to add the substance in.",
+    },
+    {
+      display_name: "Measuring Cup (10mL)",
+      properties: ['scoop', 'scoop-solid-10'],
       sprite: 'measuring',
       description: "Allows you to grab solid substances.",
       instructions: "Drag the Measuring Cup to a substance to grab 10mL of the substance. Then, drag to a container to add the substance in.",
+    },
+    {
+      display_name: "Measuring Cup (50mL)",
+      properties: ['scoop', 'scoop-solid-50'],
+      sprite: 'measuring',
+      description: "Allows you to grab solid substances.",
+      instructions: "Drag the Measuring Cup to a substance to grab 50mL of the substance. Then, drag to a container to add the substance in.",
     },
     {
       display_name: "Timer",
@@ -67,6 +88,13 @@ exports.seed = function (knex) {
       display_name: "Bunsen Burner",
       properties: ['heatsource-flame'],
       sprite: 'burner',
+      description: "Allows you to heat things up.",
+      instructions: "Drag an item to the timer (or vice-versa) and click the 'clock' button to go forward 5 minutes.",
+    },
+    {
+      display_name: "Candle",
+      properties: ['heatsource-flame', 'heatsource-useable', 'heatsource-useable-46'],
+      sprite: 'candle',
       description: "Allows you to heat things up.",
       instructions: "Drag an item to the timer (or vice-versa) and click the 'clock' button to go forward 5 minutes.",
     }

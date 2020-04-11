@@ -9,7 +9,7 @@ const basicRouter = require('../../core/helpers/router_helpers')
 const classSettings = {
   formClass: "Substance",
   defaultAllSettings: { sort: "display_name", sortdir: "ASC" },
-  paginate: true,
+  paginate: false,
 
   unique_field: true,
   unique_text_field: "display_name",
