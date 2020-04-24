@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
         tbl.increments('experiment_id');
         tbl.text('experiment_name');
         tbl.text('experiment_description');
+        tbl.text('experiment_information');
 
         tbl.integer('experiment_order');
         tbl.text('experiment_class')

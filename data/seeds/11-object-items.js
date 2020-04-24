@@ -7,12 +7,12 @@ exports.seed = function (knex) {
       sprite: "rawgem",
       color: "grey",
       properties: [],
-      volume: 50,
-      mass: 100,
+      volume: 6,
+      mass: 136,
       ph: 7,
       temperature: 20,
-      low_temp_point: 200,
-      high_temp_point: 300
+      low_temp_point: 2200,
+      high_temp_point: 3300
     },
     {
       display_name: "Iron",
@@ -21,12 +21,12 @@ exports.seed = function (knex) {
       sprite: "rawrock",
       color: "grey",
       properties: [],
-      volume: 50,
-      mass: 100,
+      volume: 4,
+      mass: 31.5,
       ph: 7,
       temperature: 20,
-      low_temp_point: 200,
-      high_temp_point: 300
+      low_temp_point: 2200,
+      high_temp_point: 2300
     },
     {
       display_name: "Gold Piece",
@@ -35,12 +35,12 @@ exports.seed = function (knex) {
       sprite: "coin",
       color: "gold",
       properties: [],
-      volume: 50,
-      mass: 100,
+      volume: 6,
+      mass: 116,
       ph: 7,
       temperature: 20,
-      low_temp_point: 200,
-      high_temp_point: 300
+      low_temp_point: 2200,
+      high_temp_point: 2300
     },
     {
       display_name: "Marble",
@@ -49,12 +49,12 @@ exports.seed = function (knex) {
       sprite: "marble",
       color: "purple",
       properties: [],
-      volume: 50,
-      mass: 100,
+      volume: 7,
+      mass: 33,
       ph: 7,
       temperature: 20,
-      low_temp_point: 200,
-      high_temp_point: 300
+      low_temp_point: 2200,
+      high_temp_point: 2300
     },
     {
       display_name: "Bolt",
@@ -231,8 +231,8 @@ exports.seed = function (knex) {
       high_temp_point: 2000
     },
     {
-      display_name: "Heat Metal",
-      description: "An element.",
+      display_name: "Scrap Metal",
+      description: "A piece of scrap metal.",
       scientific_name: "",
       sprite: "rawgem",
       color: "grey",

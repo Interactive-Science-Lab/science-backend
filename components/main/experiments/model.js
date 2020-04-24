@@ -26,11 +26,13 @@ const classDbSettings = {
     "experiment_id",
     "experiment_name",
     "experiment_description",
-    "experiment_class"
+    "experiment_class",
+    "experiment_order"
   ],
   record_fields: [
     "experiment_steps",
-    "experiment_start"
+    "experiment_start",
+    "experiment_information"
   ],
   record_callback: findById
 }
@@ -41,7 +43,7 @@ async function find(props) {
   
   let query = basicRest.find(classDbSettings)
 
-  query = sortQuery(query, sort, sortdir)
+  query = sortQuery(query, 'experiment_order', "ASC")
   
   return query
 }
