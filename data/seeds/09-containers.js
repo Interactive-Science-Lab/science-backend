@@ -4,6 +4,16 @@ exports.seed = function (knex) {
       display_name: "Graduated Cylinder",
       description: "A glass container to see volume.",
 
+      sprite: "tube",
+      properties: ['display_volume'],
+
+      mass: 18,
+      hold_volume: 100,
+    },
+    {
+      display_name: "Beaker",
+      description: "A glass container to see volume.",
+
       sprite: "gradcyl",
       properties: ['display_volume'],
 

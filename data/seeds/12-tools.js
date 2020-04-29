@@ -5,35 +5,35 @@ exports.seed = function (knex) {
       properties: ['display_mass'],
       sprite: 'scale',
       description: "Displays an object's mass.",
-      instructions: "Drag an item onto the scale, and move the scale onto the bottom left panel, to see the object's mass."
+      instructions: "Drag an item onto the scale to see the object's mass."
     },
     {
       display_name: "Thermometer",
       properties: ['display_temperature'],
       sprite: 'thermometer',
       description: "Displays an container's temperature.",
-      instructions: "Drag the thermometer into a container, and move them both onto the bottom left panel, to see the object's temperature."
+      instructions: "Drag the thermometer into a container to see the object's temperature."
     },
     {
       display_name: "pH Meter",
       properties: ['display_ph'],
       sprite: 'phmeter',
       description: "Displays an container's pH.", 
-      instructions: "Drag the pH Meter into a container, and move them both onto the bottom left panel, to see the object's pH reading."
+      instructions: "Drag the pH Meter into a container to see the object's pH reading."
     },
     {
       display_name: "Strainer",
       properties: ['strain', 'strain-solids'],
       sprite: 'strainer',
       description: "Separates solids from liquids in a container.",
-      instructions: "Drag the strainer to the bottom left panel. Drag a container onto the strainer, and you have two options. First, you can strain the container, which takes all solids from the container and adds them to strainer. Then, using either that container or any other, you can also add items from the strainer back in, with the 'Combine' button."
+      instructions: "Drag a container onto the strainer. First, you can strain the container, which takes all solids from the container and adds them to strainer. Then, using either that container or any other, you can also add items from the strainer back in, with the 'Combine' button."
     },
     {
       display_name: "Filter Paper",
       properties: ['strain', 'strain-solids'],
       sprite: 'strainer-paper',
       description: "Separates solids from liquids in a container.",
-      instructions: "Drag the strainer to the bottom left panel. Drag a container onto the strainer, and you have two options. First, you can strain the container, which takes all solids from the container and adds them to strainer. Then, using either that container or any other, you can also add items from the strainer back in, with the 'Combine' button."
+      instructions: "Drag a container onto the strainer. First, you can strain the container, which takes all solids from the container and adds them to strainer. Then, using either that container or any other, you can also add items from the strainer back in, with the 'Combine' button."
     },
     {
       display_name: "Micro Pipette",
@@ -89,14 +89,14 @@ exports.seed = function (knex) {
       properties: ['heatsource-flame'],
       sprite: 'burner',
       description: "Allows you to heat things up.",
-      instructions: "Drag an item to the timer (or vice-versa) and click the 'clock' button to go forward 5 minutes.",
+      instructions: "Drag an item to the burner and press the corresponding button to heat it up.",
     },
     {
       display_name: "Candle",
       properties: ['heatsource-flame', 'heatsource-useable', 'heatsource-useable-46'],
       sprite: 'candle',
       description: "Allows you to heat things up.",
-      instructions: "Drag an item to the timer (or vice-versa) and click the 'clock' button to go forward 5 minutes.",
+      instructions: "Drag an item to the candle and press the corresponding button to heat it up."
     }
   ])
 };
