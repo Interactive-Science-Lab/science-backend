@@ -13,11 +13,7 @@ const classSettings = {
 
   unique_field: true,
   unique_text_field: "experiment_name",
-
 }
-
-
-
 
 //BASIC ROUTES
 router.get('/', async (req, res) => {

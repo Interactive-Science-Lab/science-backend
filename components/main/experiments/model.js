@@ -43,7 +43,7 @@ async function find(props) {
   
   let query = basicRest.find(classDbSettings)
 
-  query = sortQuery(query, 'experiment_order', "ASC")
+  query = sortQuery(query, 'experiment_name', "ASC")
   
   return query
 }
