@@ -97,6 +97,37 @@ exports.seed = function (knex) {
       sprite: 'candle',
       description: "Allows you to heat things up.",
       instructions: "Drag an item to the candle and press the corresponding button to heat it up."
+    },
+    {
+      display_name: "Forceps",
+      properties: ['dissection-tool'],
+      sprite: 'forceps',
+      description: "",
+      instructions: ""
+    },
+    {
+      display_name: "Scalpel",
+      properties: ['dissection-tool'],
+      sprite: 'Scalpel',
+      description: "",
+      instructions: ""
+    },
+    {
+      display_name: "Dissection Tray",
+      properties: ['dissection-tray'],
+      sprite: 'tray',
+      description: "",
+      instructions: ""
+    },
+    {
+      display_name: "Urine Test Kit",
+      properties: ['urine-test-kit'],
+      sprite: 'test-kit',
+      description: "",
+      instructions: ""
     }
+
+
+
   ])
 };
