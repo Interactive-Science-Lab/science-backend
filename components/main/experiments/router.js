@@ -9,7 +9,6 @@ const basicRouter = require('../../core/helpers/router_helpers')
 const classSettings = {
   formClass: "Experiments",
   defaultAllSettings: { sort: "experiment_order", sortdir: "ASC" },
-  paginate: true,
 
   unique_field: true,
   unique_text_field: "experiment_name",
