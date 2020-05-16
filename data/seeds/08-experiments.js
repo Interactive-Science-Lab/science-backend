@@ -1,7 +1,7 @@
 exports.seed = function(knex) {
     return knex('experiments').insert([
       {
-        "experiment_name": "Learn Volume",
+        "experiment_name": "Density Determination",
         "experiment_description": "Learn how displacement of a liquid can reveal the volume of an object.",
         "experiment_class": "chemistry",
         "experiment_steps": "#1. Fill the cylinder on the table with 50mL of water. #2. Drop 1 bolt in and record the volume reading by dragging the cylinder to the bottom left panel. #3. Drop 1 rubberball in and record the volume reading.",
@@ -9,7 +9,7 @@ exports.seed = function(knex) {
         "experiment_order": 1
       },
       {
-        "experiment_name":  "PH",
+        "experiment_name":  "PH Determination",
         "experiment_description": "Find the average weight of a bolt by averaging 3 readings.",
         "experiment_class": "chemistry",
         "experiment_steps": "#1. Take out a cylinder, and fill with 30mL of water. #2. Drop 1 bolt in and record the volume reading by dragging the cylinder to the bottom left panel. #3. Get out a second cylinder, and repeat the first two steps. #4. Do it a third time. #5. Add & divide the measurements by 3 to find the average volume of a bolt.",
@@ -17,7 +17,7 @@ exports.seed = function(knex) {
         "experiment_order": 2
       },
       {
-        "experiment_name": "Hydrophillic beads",
+        "experiment_name": "Quantifying Surface Area",
         "experiment_description": "Find the average weight of a bolt by averaging one reading.",
         "experiment_class": "chemistry",
         "experiment_steps": "#1. Fill the cylinder on the table with 100mL of water. #2. Drop in 5 bolts and record the volume reading by dragging the cylinder to the bottom left panel. #3. Divide by 5 to find the average volume.",
@@ -73,13 +73,86 @@ exports.seed = function(knex) {
         "experiment_order": 9
       },
       {
-        "experiment_name": "Precipitation Reaction",
-        "experiment_description": "Mix chemicals to form & quantify a precipitate.",
-        "experiment_class": "chemistry",
-        "experiment_steps": "#1. Mix 25 ml of magnesium sulfate solution and 25 ml of sodium carbonate solution in a beaker. #2. Stir for 1 minute. #3. Use a filter paper funnel to filter the precipitate from the solution. #4. Place the filter paper (including precipitate) on a paper towel and allow to dry for 12 hours. #5. Remove all the precipitate from the paper filter, mass it, and record the mass. (should be 13.7 g).",
+        "experiment_name": "Measurement",
+        "experiment_description": "",
+        "experiment_class": "biology",
+        "experiment_steps": "",
+        "experiment_start": [],
+        "experiment_order": 10
+      },
+      {
+        "experiment_name": "Diffusion & Osmosis",
+        "experiment_description": "",
+        "experiment_class": "biology",
+        "experiment_steps": "",
+        "experiment_start": [],
+        "experiment_order": 10
+      },
+      {
+        "experiment_name": "Bacterial Inhibition",
+        "experiment_description": "",
+        "experiment_class": "biology",
+        "experiment_steps": "",
+        "experiment_start": [],
+        "experiment_order": 10
+      },
+      {
+        "experiment_name": "Blood Type",
+        "experiment_description": "",
+        "experiment_class": "biology",
+        "experiment_steps": "",
+        "experiment_start": [],
+        "experiment_order": 10
+      },
+      {
+        "experiment_name": "Protein Synthesis",
+        "experiment_description": "",
+        "experiment_class": "biology",
+        "experiment_steps": "",
+        "experiment_start": [],
+        "experiment_order": 10
+      },
+      {
+        "experiment_name": "Mitosis",
+        "experiment_description": "",
+        "experiment_class": "biology",
+        "experiment_steps": "",
+        "experiment_start": [],
+        "experiment_order": 10
+      },
+      {
+        "experiment_name": "Urinalysis",
+        "experiment_description": "",
+        "experiment_class": "biology",
+        "experiment_steps": "",
+        "experiment_start": [],
+        "experiment_order": 10
+      },
+      {
+        "experiment_name": "Cellular Respiration",
+        "experiment_description": "",
+        "experiment_class": "biology",
+        "experiment_steps": "",
+        "experiment_start": [],
+        "experiment_order": 10
+      },
+      {
+        "experiment_name": "Worm Dissection",
+        "experiment_description": "",
+        "experiment_class": "biology",
+        "experiment_steps": "",
+        "experiment_start": [],
+        "experiment_order": 10
+      },
+      {
+        "experiment_name": "Frog Dissection",
+        "experiment_description": "",
+        "experiment_class": "biology",
+        "experiment_steps": "",
         "experiment_start": [],
         "experiment_order": 10
       }
+      
     ])
   };
   
