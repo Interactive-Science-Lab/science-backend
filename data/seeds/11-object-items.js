@@ -429,7 +429,7 @@ exports.seed = function (knex) {
       display_name: "U Protein (RNA)",
       description: "",
       scientific_name: "",
-      sprite: "proteina",
+      sprite: "proteinu",
       color: "0",
       properties: ['protein-connect', 'A Protein (DNA)'],
       volume: 1,
