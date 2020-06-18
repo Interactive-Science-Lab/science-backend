@@ -20,7 +20,7 @@ const {
 //CLASS SETTINGS
 const classDbSettings = {
   database: 'tools',
-  id_field: 'container_id',
+  id_field: 'tool_id',
   unique_text: 'display_name',
   select_fields: [
     "tool_id",
