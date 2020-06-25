@@ -1,6 +1,7 @@
 const paginateHelpers = require('./paginated_results')
 const { log } = require('../administration/userLogs/log-middleware.js')
 const Images = require('../content/images/image-model.js');
+const bcrypt = require('bcryptjs') //hashing the password
 
 module.exports = {
     getAll,
@@ -22,14 +23,14 @@ async function getAll(req, res, ClassDatabase, classSettings) {
     }
 
     try {
-        
-        let returnResults = await ClassDatabase.find(ss) 
-        if(classSettings.paginate) { 
-            returnResults = paginateHelpers.results(req, returnResults, classSettings) 
+
+        let returnResults = await ClassDatabase.find(ss)
+        if (classSettings.paginate) {
+            returnResults = paginateHelpers.results(req, returnResults, classSettings)
         }
         return res.json(returnResults);
     } catch {
-        res.status(500).json({message: 'Failed to get items.' });
+        res.status(500).json({ message: 'Failed to get items.' });
     }
 
 }
@@ -39,13 +40,13 @@ async function getRecord(req, res, ClassDatabase, classSettings, respond = true)
 
     let item = await ClassDatabase.findById(id)
     if (item) {
-        if(classSettings.has_thumbnail) { 
+        if (classSettings.has_thumbnail) {
             const thumbnail = await Images.getThumbnail(classSettings.formClass, id)
-            item = {...item, thumbnail}
+            item = { ...item, thumbnail }
         }
-        if(respond) { res.json(item) } else { return item }
+        if (respond) { res.json(item) } else { return item }
     } else {
-        if(respond) {  
+        if (respond) {
             res.status(404).json({ message: 'Could not find item with given id.' })
         } else { return false }
     }
@@ -53,14 +54,14 @@ async function getRecord(req, res, ClassDatabase, classSettings, respond = true)
 
 async function newRecord(req, res, ClassDatabase, classSettings) {
     const itemData = req.body;
-    if(classSettings.has_creator) { itemData[classSettings.creator_field] = req.decodedToken.user.user_id }
+    if (classSettings.has_creator) { itemData[classSettings.creator_field] = req.decodedToken.user.user_id }
 
     if (classSettings.unique_field && await ClassDatabase.findByName(itemData[classSettings.unique_text_field])) {
         res.status(400).json({ message: "A record with this name already exists." })
     } else {
         ClassDatabase.add(itemData)
             .then(item => {
-                if(classSettings.has_log) { log(req, {}, item) }
+                if (classSettings.has_log) { log(req, {}, item) }
                 res.status(201).json(item);
             })
             .catch(err => {
@@ -73,13 +74,22 @@ async function editRecord(req, res, ClassDatabase, classSettings) {
     const { id } = req.params;
     const itemData = req.body;
 
+    let pw = classSettings.password_field
+    if (pw) {
+        if (itemData[pw] && itemData[pw] != "") {
+            itemData[pw] = bcrypt.hashSync(itemData[pw], 10)
+        } else {
+            delete changes.password
+        }
+    }
+
     const item = await ClassDatabase.findById(id)
     if (classSettings.unique_field && await ClassDatabase.findByName(itemData[classSettings.unique_text_field], id)) {
         res.status(400).json({ message: "A record with this name already exists." })
     } else {
         ClassDatabase.update(itemData, id)
             .then(updatedItem => {
-                if(classSettings.has_log) { log(req, item) }
+                if (classSettings.has_log) { log(req, item) }
                 res.json(updatedItem);
             })
             .catch(err => {
@@ -95,7 +105,7 @@ async function deleteRecord(req, res, ClassDatabase, classSettings) {
 
     ClassDatabase.remove(id)
         .then(deleted => {
-            if(classSettings.has_log) { log(req, item) }
+            if (classSettings.has_log) { log(req, item) }
             res.send("Success.")
         })
         .catch(err => { res.status(500).json({ message: 'Failed to delete item' }) });

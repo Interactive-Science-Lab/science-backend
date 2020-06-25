@@ -46,8 +46,8 @@ const classDbSettings = {
     'mailing_list',
     'forgotten_password_reset_time'
   ],
-  record_fields: [
-    'password' ],
+  password_field: 'password',
+  record_fields: [],
   record_callback: findById
 }
 

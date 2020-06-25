@@ -21,6 +21,7 @@ const classSettings = {
   unique_text_field: "username",
 
   has_thumbnail: true,
+  password_field: "password"
 }
 const ClassDatabase = require(`./${classSettings.fileName}-model.js`);
 

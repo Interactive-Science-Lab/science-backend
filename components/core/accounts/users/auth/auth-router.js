@@ -158,11 +158,6 @@ router.post('/login', check_ip_ban, (req, res) => {
     })
 });
 
-router.post('/check', authenticate.user_restricted,  (req, res) => {
-  
-  res.status(200)
-});
-
 //---------------------------------------------
 //  EDIT ACCOUNT
 //PUT /users/auth/edit
