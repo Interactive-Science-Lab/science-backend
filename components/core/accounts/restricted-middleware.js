@@ -6,7 +6,7 @@ const getToken = async (req, res) => {
   const token = req.headers.authorization
   let ret = false;
   if (token) {
-    await jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
+    await jwt.verify(token, process.env.JWT_SECRET || "add a third table for many to many", async (err, decodedToken) => {
       if (err) {
         ret = false
       }

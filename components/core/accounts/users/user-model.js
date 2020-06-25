@@ -35,7 +35,6 @@ const classDbSettings = {
   unique_text: 'username',
   select_fields: [
     'user_id',
-    'password',
     'username',
     'user_email',
     'user_role',
@@ -47,7 +46,8 @@ const classDbSettings = {
     'mailing_list',
     'forgotten_password_reset_time'
   ],
-  record_fields: [],
+  record_fields: [
+    'password' ],
   record_callback: findById
 }
 

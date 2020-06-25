@@ -35,6 +35,7 @@ router.get('/:id', async (req, res) => {
   if (user) {
     const UserKindDb = userKindsInfo(user.user_kind)
     const info = await UserKindDb.findByUserId(id)
+    delete user.password
     res.json({ ...user, info, })
   }
   else {

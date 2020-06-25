@@ -42,10 +42,10 @@ router.post('/register', async (req, res) => {
   //Test the password's strength and start to keep track of errors
   var pwStrength = owasp.test(userData.password);
   let errors = pwStrength.errors
-  
+
   var regex = /^[A-Za-z0-9]+$/
   var isValid = regex.test(userData.username);
-  if(!isValid) { errors.push("Username can only contain letters & numbers, no spaces or symbols.")}
+  if (!isValid) { errors.push("Username can only contain letters & numbers, no spaces or symbols.") }
 
   //See if the username/email is taken, and add to errors if true.
   var userSearch = await Users.findUser(userData.user_email, userData.username)
@@ -140,12 +140,12 @@ router.put("/resetPassword/:username/:user_hash", async (req, res) => {
 //---------------------------------------------
 router.post('/login', check_ip_ban, (req, res) => {
   let { username, password } = req.body
-  console.log("IP BAN?", username, password)
 
   Users.findUser(username)
     .then(user => {
-      console.log(user.password, user.user_verified)
-      if (user && bcrypt.compareSync(password, user.password) && user.user_verified) {
+      let pWcompare = bcrypt.compareSync(password, user.password)
+
+      if (user && pWcompare && user.user_verified) {
         const token = generateToken(user)
         delete user.password
         res.status(200).json({ message: "Welcome!", token: token, user: user })
@@ -158,6 +158,10 @@ router.post('/login', check_ip_ban, (req, res) => {
     })
 });
 
+router.post('/check', authenticate.user_restricted,  (req, res) => {
+  
+  res.status(200)
+});
 
 //---------------------------------------------
 //  EDIT ACCOUNT
@@ -187,7 +191,7 @@ router.put('/edit', authenticate.user_restricted, async (req, res) => {
   if (changes.username && (changes.username != user.username)) {
     var regex = /^[A-Za-z0-9]+$/
     var isValid = regex.test(changes.username);
-    if(!isValid) { errors.push("Username can only contain letters & numbers, no spaces or symbols.")}
+    if (!isValid) { errors.push("Username can only contain letters & numbers, no spaces or symbols.") }
     usernameSearch = await Users.findByUsername(changes.username)
     if (usernameSearch) { errors.push("That username is taken.") }
   }
@@ -211,13 +215,13 @@ router.put('/edit/info', authenticate.user_restricted, (req, res) => {
   const infoData = req.body;
   const user = req.decodedToken.user;
   const id = user.user_id
-  
+
   const UserKindDb = userKindsInfo(user.user_kind)
 
   UserKindDb.updateByUserId(infoData, id)
     .then(updateInfo => {
       user.info = updateInfo
-      res.json( user ) ;
+      res.json(user);
     })
     .catch(err => {
       res.status(500).json({ message: 'Failed to update the users information' });
@@ -240,7 +244,7 @@ module.exports = router;
 
 async function createUserKindInfo(user) {
   const UserKindDb = userKindsInfo(user.user_kind)
-  const userInfo = await UserKindDb.add({foreign_user_id: user.user_id})
+  const userInfo = await UserKindDb.add({ foreign_user_id: user.user_id })
   return userInfo
 }
 
@@ -275,16 +279,17 @@ const getUserIP = (req) => {
 //Returns a nice JSON token with the user object attached.
 function generateToken(user) {
   const payload = {
-    subject: user.id, // sub in payload is what the token is about
+    subject: user.user_id, 
     user: user
   };
-
+ 
   const options = {
-    expiresIn: '30d', // show other available options in the library's documentation
+    expiresIn: '30d', 
   };
-
-  // extract the secret away so it can be required and used where needed
-  return jwt.sign(payload, process.env.JWT_SECRET, options); // this method is synchronous
+  
+  let token = jwt.sign(payload, process.env.JWT_SECRET || "add a third table for many to many", options)
+  
+  return token 
 }
 
 
