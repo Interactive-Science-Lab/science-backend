@@ -40,8 +40,9 @@ async function getRecord(req, res, ClassDatabase, resourceComponent, respond = t
 
     let item = await ClassDatabase.findById(id)
     if (item) {
-        if (resourceComponent.has_thumbnail) {
-            const thumbnail = await Images.getThumbnail(resourceComponent.formClass, id)
+        if (resourceComponent.hasFeature('thumbnail')) {
+            const thumbnail = await ClassDatabase.getThumbnail(id)
+            console.log(thumbnail)
             item = { ...item, thumbnail }
         }
         if (respond) { res.json(item) } else { return item }

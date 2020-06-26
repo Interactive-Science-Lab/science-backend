@@ -26,10 +26,9 @@ function joinThumbnail(query, id_field, foreign_class) {
 function joinUser(query, resourceComponent) {
   let featureOptions = resourceComponent.featureOptions('creator')
 
-  
   return query
-  .select(featureOptions.options.selectFields)
-  .leftJoin('users', featureOptions.options.field, `users.user_id`)
+  .select([...featureOptions.selectFields, featureOptions.field])
+  .leftJoin('users', featureOptions.field, `users.user_id`)
 }
 
 function searchQuery(query, fields, term) {

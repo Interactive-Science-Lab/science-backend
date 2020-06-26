@@ -17,6 +17,7 @@ function find(resourceComponent) {
     const indexFields = resourceComponent.fields.index
     const idField = resourceComponent.fields.id
     const uniqueField = resourceComponent.fields.unique
+    const tagField = resourceComponent.hasFeature('tags') ? indexFields.push(resourceComponent.featureOptions('tags').field) : null
     return query = db(database)
         .select([ idField, uniqueField, ...indexFields ])
 }
@@ -27,6 +28,7 @@ function findById(id, resourceComponent) {
     const uniqueField = resourceComponent.fields.unique
     const idField = resourceComponent.fields.id
     const recordFields = resourceComponent.fields.record
+    const tagField = resourceComponent.hasFeature('tags') ? indexFields.push(resourceComponent.featureOptions('tags').field) : null
     return query = db(database)
         .select([idField, uniqueField, ...indexFields, ...recordFields])
         .where(idField, id).first()

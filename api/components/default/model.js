@@ -13,7 +13,7 @@ const defaultModel = (resourceComponent) => {
 
     //FUNCTIONS
     function find(props) {
-        const { sort, sortdir, searchTerm, filter, tag } = props
+        const { sort, sortdir, searchTerm, filter, tag, category, kind } = props
         let query = basicRest.find(resourceComponent)
 
         if (resourceComponent.hasFeature('search')) {
@@ -33,11 +33,11 @@ const defaultModel = (resourceComponent) => {
         }
 
         if (resourceComponent.hasFeature('creator')) {
-            query = joinUser(query, resourceComponent )
+            query = joinUser(query, resourceComponent)
         }
 
         if (resourceComponent.hasFeature('tags')) {
-            query = tagsQuery(query, resourceComponent.hasFeature('tags').field, tag)
+            query = tagsQuery(query, resourceComponent.featureOptions('tags').field, tag)
         }
 
         return query
@@ -45,6 +45,11 @@ const defaultModel = (resourceComponent) => {
 
     function findById(id) {
         let query = basicRest.findById(id, resourceComponent)
+
+        if (resourceComponent.hasFeature('creator')) {
+            query = joinUser(query, resourceComponent)
+        }
+
         return query
     }
     function findByName(name, excludingId = null) {
@@ -74,6 +79,7 @@ const defaultModel = (resourceComponent) => {
         .where("foreign_class", resourceComponent.names.us)
         .where("image_kind", "thumbnail").first()
     }
+
 
 
     let retFunctions = {
