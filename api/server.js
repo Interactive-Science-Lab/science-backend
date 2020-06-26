@@ -7,9 +7,13 @@ server.use(cors());
 
 server.use(express.json());
 
-//A lot functionality for the core of the webapp, including users, logs, feedback, pages, and blog posts.
+//Specific functionality- users, logs, images
 const coreRoutes = require('./core.js')
 server.use('/api', coreRoutes)
+
+
+const defaultRoutes = require('./default.js')
+server.use('/api', defaultRoutes)
 
 server.get('/', (req, res) => {
   res.send("Your API is successfully connected");
