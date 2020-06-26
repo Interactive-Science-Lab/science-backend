@@ -1,4 +1,4 @@
-const Component = require('../../components/asteroid/component')
+const Component = require('../../api/components/asteroid/component')
 
 let component = new Component('site_page', {friendly: 'pages', upper: 'Page'} )
 

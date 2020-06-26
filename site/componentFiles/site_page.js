@@ -1,4 +1,4 @@
-const Component = require('../asteroid/component')
+const Component = require('../../api/components/asteroid/component')
 const db = require('../../data/dbConfig.js');
 
 let component = new Component('site_page', { friendly: 'pages', upper: 'Page' })

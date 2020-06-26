@@ -1,4 +1,4 @@
-const Component = require('../asteroid/component')
+const Component = require('../../api/components/asteroid/component')
 
 let component = new Component('support_ticket', {friendly: 'support_tickets', upper: 'SupportTicket'}) 
 

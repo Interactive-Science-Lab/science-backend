@@ -1,4 +1,4 @@
-const basicRest = require('../../../default/model_helpers')
+const basicRest = require('../../default/model_helpers')
 const db = require('../../../../data/dbConfig.js');
 
 //AVAILABLE CALLS
@@ -26,7 +26,7 @@ const {
   searchQuery,
   filterQuery,
   sortQuery
-} = require('../../../default/helpers/search_helpers')
+} = require('../../default/helpers/search_helpers')
 
 //CLASS SETTINGS
 const classDbSettings = {

@@ -1,6 +1,6 @@
 const paginateHelpers = require('./helpers/paginated_results')
 const { log } = require('../asteroid/log-middleware.js')
-const Images = require('../core/content/images/image-model.js');
+const Images = {}//require('../core/content/images/image-model.js');
 const bcrypt = require('bcryptjs') //hashing the password
 
 module.exports = {

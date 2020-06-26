@@ -1,4 +1,4 @@
-const Component = require('../asteroid/component')
+const Component = require('../../api/components/asteroid/component')
 
 let component = new Component('site_blog', {friendly: 'posts', upper: 'BlogPosts'}) 
 
@@ -12,5 +12,7 @@ component.addFeature('thumbnail')
 component.addFields('unique', 'blog_title')
 component.addFields('index', ['blog_status', 'blog_category', 'blog_title', 'blog_description'])
 component.addFields('record', ['blog_text'])
+
+component.setLoader({sort: "created_at"})
 
 module.exports = component
