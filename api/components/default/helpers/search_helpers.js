@@ -23,16 +23,17 @@ function joinThumbnail(query, id_field, foreign_class) {
     })
 }
 
-function joinUser(query, resourceComponent) {
-  let featureOptions = resourceComponent.featureOptions('creator')
+function joinUser(query, resourceComponent, kind = 'creator') { 
+  let featureOptions = resourceComponent.featureOptions(kind)
+
+  let table = `users AS ${kind}`
 
   return query
   .select([...featureOptions.selectFields, featureOptions.field])
-  .leftJoin('users', featureOptions.field, `users.user_id`)
+  .leftJoin(table, featureOptions.field, `${kind}.user_id`)
 }
 
 function searchQuery(query, fields, term) {
-  console.log(fields)
   fields = fields.fields
   if(term != '') {
     query = query.andWhere((q) =>

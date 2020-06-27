@@ -1,10 +1,12 @@
+const db = require("../../../data/dbConfig")
+
 function log(req, previous, changes = req.body || {}) {
   //'changes' can be passed in. If not, they default to req.body, and if that's empty, to an empty object.
   const route = req.baseUrl
   const method = req.method
   //Will be null on a post, however you can get the id from the changes.
   const object_id = req.params.id
-  const log_submitting_user_id = req.decodedToken.user.user_id
+  const log_submitting_user_id = req.decodedToken ? req.decodedToken.user.user_id : 0
 
   //If they are editing a record, make sure you only save what was actually changed
   if(req.method === "PUT") {
@@ -21,8 +23,11 @@ function log(req, previous, changes = req.body || {}) {
     changes = actualChanges
   }
 
-  const LogDb = require('../core/userLogs/log-model.js')
-  LogDb.add({changes, previous, log_submitting_user_id, route, method, object_id})
+  try {
+    db('logs').insert({changes, previous, log_submitting_user_id, route, method, object_id})
+  } catch(err) {
+    console.log(err)
+  }
 
   return "Logged."
 }

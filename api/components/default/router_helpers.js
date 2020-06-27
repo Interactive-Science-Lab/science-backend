@@ -1,5 +1,5 @@
 const paginateHelpers = require('./helpers/paginated_results')
-const { log } = require('../asteroid/log-middleware.js')
+const { log } = require('../core/log-middleware.js')
 const Images = {}//require('../core/content/images/image-model.js');
 const bcrypt = require('bcryptjs') //hashing the password
 
@@ -29,8 +29,8 @@ async function getAll(req, res, ClassDatabase, resourceComponent) {
             returnResults = paginateHelpers.results(req, returnResults, resourceComponent)
         }
         return res.json(returnResults);
-    } catch {
-        res.status(500).json({ message: 'Failed to get items.' });
+    } catch(err) {
+        res.status(500).json({err, message: 'Failed to get items.' });
     }
 
 }
@@ -42,9 +42,15 @@ async function getRecord(req, res, ClassDatabase, resourceComponent, respond = t
     if (item) {
         if (resourceComponent.hasFeature('thumbnail')) {
             const thumbnail = await ClassDatabase.getThumbnail(id)
-            console.log(thumbnail)
             item = { ...item, thumbnail }
         }
+        
+        if (resourceComponent.hasFeature('userKinds')) {
+            const info = await ClassDatabase.getUserInfo(item)
+            console.log(info)
+            item = { ...item, info }
+        }
+
         if (respond) { res.json(item) } else { return item }
     } else {
         if (respond) {

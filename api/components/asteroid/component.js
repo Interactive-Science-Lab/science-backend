@@ -1,17 +1,3 @@
-/*
-  has_thumbnail: true,
-  has_creator: true,
-  creator_field: "author_id",
-  has_log: true,
-
-
-
-
-
-*/
-
-
-
 class Component {
     constructor(baseName, options = {}) {
         const plural = options.plural || baseName + 's'
@@ -37,7 +23,9 @@ class Component {
             thumbnail: { name: 'thumbnail', on: false, options: {} },
             gallery: { name: 'gallery', on: false, options: {} },
             creator: { name: 'creator', on: false, options: {} },
-            category: { name: 'creator', on: false, options: {} },
+            confirmer: { name: 'confirmer', on: false, options: {} },
+            category: { name: 'category', on: false, options: {} },
+            userKinds: { name: 'userKinds', on: false, options: {} },
         }
 
         this.references= [

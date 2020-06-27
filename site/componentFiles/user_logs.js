@@ -1,24 +1,17 @@
 const Component = require('../../api/components/asteroid/component')
 
-let component = new Component('site_page', {friendly: 'pages', upper: 'Page'} )
+let component = new Component('log')
 
 component.addFeature('paginate')
-component.addFeature('search', {fields: ['page_title', 'page_body_text']} )
-component.addFeature('filter', { field: 'page_status' })
-component.addFeature('sort')
+component.addFeature('search', {fields: ['changes', 'previous', 'notes']} )
+component.addFeature('filter', { field: 'log_confirmed' })
+component.addFeature('creator', {field: 'log_submitting_user_id', selectFields: ['creator.username AS submitting_username']})
+component.addFeature('confirmer',  {field: 'log_confirming_user_id', selectFields: ['confirmer.username AS confirming_username']})
 
-component.addFields('unique', 'page_title')
-component.addFields('index', ['page_status', 'page_category', 'page_symbol', 'page_order'])
-component.addFields('record', ['page_body_text'])
+component.addFields('index', ['route', 'method', 'object_id', 'log_confirmed', 'log_submitting_user_id', 'log_confirming_user_id'])
+component.addFields('record', ['changes', 'previous', 'notes'])
 
-component.setLoader({filter: 'public', sort: 'page_order'})
+component.setLoader({ filter: 'all' })
 
 module.exports = component
 
-
-
-// function confirmAll() {
-//     return db('logs')
-//     .whereNull('log_confirmed')
-//     .update('log_confirmed', true)
-//   }

@@ -1,23 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const Users = require('../user-model.js');
+const Users = {}//require('../user-model.js');
 const IpAuth = require('./ip-auth-model.js')
 
 //Used for password authentication & passing back the json web token
 const bcrypt = require('bcryptjs') //hashing the password
-const owasp = require('../../../../../config/passwordConfig') //setting minimum restrictions on passwords
+const owasp = require('../../config/passwordConfig') //setting minimum restrictions on passwords
 const jwt = require('jsonwebtoken')
 
 //Used to send the verfiy & forgotten password emails
 const nodeMailer = require('nodemailer')
-const verifyEmailTemplate = require('../../../../../site/emailTemplates/verify-email-template')
-const forgotPasswordTemplate = require('../../../../../site/emailTemplates/forgotten-password-template')
+const verifyEmailTemplate = require('../../../site/emailTemplates/verify-email-template')
+const forgotPasswordTemplate = require('../../../site/emailTemplates/forgotten-password-template')
 
 //Auth middleware
-const authenticate = require('../../restricted-middleware.js')
+const authenticate = require('./restricted-middleware.js')
 
 
-const userKindsInfo = require('../userKinds/user_kinds-model')
+const userKindsInfo = {}//require('../userKinds/user_kinds-model')
 
 //Table of Contents
 //-----------------
@@ -307,7 +307,7 @@ function cleanAndSetInput(userData) {
 }
 
 //All about the emails
-let siteSettings = require('../../../../../site/siteSettings')
+let siteSettings = require('../../../site/siteSettings')
 
 function registerEmail(user) {
   //generate another hash from username to send in "verify" getThumbnail

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const authenticate = require('../asteroid/restricted-middleware.js')
+const authenticate = require('../core/restricted-middleware.js')
 const basicRouter = require('./router_helpers')
 
 
@@ -10,6 +10,8 @@ function defaultRouter (resourceComponent) {
     const ClassDatabase = require('./model.js')(resourceComponent);
 
     //BASIC ROUTES
+    resourceComponent.activateRoutes(router, ClassDatabase);
+
     router.get('/', async (req, res) => {
         basicRouter.getAll(req, res, ClassDatabase, resourceComponent)
     })
@@ -17,8 +19,6 @@ function defaultRouter (resourceComponent) {
     router.post('/', authenticate.user_restricted, async (req, res) => {
         basicRouter.newRecord(req, res, ClassDatabase, resourceComponent)
     });
-    
-    resourceComponent.activateRoutes(router, ClassDatabase);
 
     router.get('/:id', async (req, res) => {
         basicRouter.getRecord(req, res, ClassDatabase, resourceComponent)

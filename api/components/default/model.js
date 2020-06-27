@@ -36,6 +36,10 @@ const defaultModel = (resourceComponent) => {
             query = joinUser(query, resourceComponent)
         }
 
+        if (resourceComponent.hasFeature('confirmer')) {
+            query = joinUser(query, resourceComponent, 'confirmer')
+        }
+
         if (resourceComponent.hasFeature('tags')) {
             query = tagsQuery(query, resourceComponent.featureOptions('tags').field, tag)
         }
@@ -49,6 +53,7 @@ const defaultModel = (resourceComponent) => {
         if (resourceComponent.hasFeature('creator')) {
             query = joinUser(query, resourceComponent)
         }
+        
 
         return query
     }
@@ -80,7 +85,11 @@ const defaultModel = (resourceComponent) => {
         .where("image_kind", "thumbnail").first()
     }
 
-
+    function getUserInfo(user) {
+        let id = user.user_id
+        let kind = user.user_kind
+        return db(`${kind}s`).where('foreign_user_id', id).first()
+    }
 
     let retFunctions = {
         find,
@@ -91,6 +100,7 @@ const defaultModel = (resourceComponent) => {
         update,
         getGallery,
         getThumbnail,
+        getUserInfo,
         ...resourceComponent.modelFunctions
     }
 
