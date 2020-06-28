@@ -2,7 +2,7 @@ const Component = require('../../api/components/asteroid/component')
 
 let component = new Component('experiment' )
 
-component.addFeature('search', {fields: ['experiment_title']} )
+component.addFeature('search', {fields: ['experiment_name']} )
 component.addFeature('filter', { field: 'experiment_class' })
 component.addFeature('sort')
 
