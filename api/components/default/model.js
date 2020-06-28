@@ -69,6 +69,12 @@ const defaultModel = (resourceComponent) => {
     function remove(id) {
         return basicRest.remove(id, resourceComponent)
     }
+    function findByFields(value, fields) {
+        return basicRest.findByFields(resourceComponent, value, fields)
+    }
+    function explicitFindByFields(value, fields) {
+        return basicRest.explicitFindByFields(resourceComponent, value, fields)
+    }
 
 
     function getGallery(id) {
@@ -95,6 +101,8 @@ const defaultModel = (resourceComponent) => {
         find,
         findById,
         findByName,
+        findByFields,
+        explicitFindByFields,
         add,
         remove,
         update,

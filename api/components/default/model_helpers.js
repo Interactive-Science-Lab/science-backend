@@ -9,7 +9,9 @@ module.exports = {
     tagCloud,
     returnTags,
     findById,
-    find
+    find,
+    findByFields,
+    explicitFindByFields,
 }
 
 function find(resourceComponent) {
@@ -33,6 +35,35 @@ function findById(id, resourceComponent) {
     return query = db(database)
         .select([idField, ...indexFields, ...recordFields])
         .where(idField, id).first()
+
+}
+
+function findByFields(resourceComponent, value, fields) {
+    const database = resourceComponent.names.lp
+    const indexFields = resourceComponent.fields.index
+    const idField = resourceComponent.fields.id
+    const recordFields = resourceComponent.fields.record
+    resourceComponent.fields.unique ? indexFields.push(resourceComponent.fields.unique) : null
+    resourceComponent.hasFeature('tags') ? indexFields.push(resourceComponent.featureOptions('tags').field) : null
+
+    let query = db(database)
+        .select([idField, ...indexFields, ...recordFields])
+    
+    fields.map((f) => query = query.orWhere(f, 'ILIKE', `${value}`))
+
+    return query
+
+}
+
+
+function explicitFindByFields(resourceComponent, value, fields) {
+    const database = resourceComponent.names.lp
+    
+    let query = db(database)
+    
+    fields.map((f) => query = query.orWhere(f, 'ILIKE', `${value}`))
+
+    return query.first()
 
 }
 

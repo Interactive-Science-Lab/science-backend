@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Users = {}//require('../user-model.js');
+const db = require('../../../data/dbConfig')
+
+const u = require('../../../site/componentFiles/user')
+const ClassDatabase = require('../default/model.js');
+const Users = ClassDatabase(u)
+
 const IpAuth = require('./ip-auth-model.js')
 
 //Used for password authentication & passing back the json web token
@@ -141,7 +146,7 @@ router.put("/resetPassword/:username/:user_hash", async (req, res) => {
 router.post('/login', check_ip_ban, (req, res) => {
   let { username, password } = req.body
 
-  Users.findUser(username)
+  Users.explicitFindByFields(username, ['username', 'user_email'])
     .then(user => {
       let pWcompare = bcrypt.compareSync(password, user.password)
 
