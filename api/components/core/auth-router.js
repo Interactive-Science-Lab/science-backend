@@ -145,11 +145,12 @@ router.put("/resetPassword/:username/:user_hash", async (req, res) => {
 //---------------------------------------------
 router.post('/login', check_ip_ban, (req, res) => {
   let { username, password } = req.body
+  console.log("WTF")
 
   Users.explicitFindByFields(username, ['username', 'user_email'])
     .then(user => {
       let pWcompare = bcrypt.compareSync(password, user.password)
-
+      console.log(user)
       if (user && pWcompare && user.user_verified) {
         const token = generateToken(user)
         delete user.password

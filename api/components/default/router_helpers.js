@@ -63,11 +63,22 @@ async function newRecord(req, res, ClassDatabase, resourceComponent) {
     const itemData = req.body;
     if (resourceComponent.has_creator) { itemData[resourceComponent.creator_field] = req.decodedToken.user.user_id }
 
+    let pw = resourceComponent.fields.password
+    if (pw) {
+        if (itemData[pw] && itemData[pw] != "") {
+            itemData[pw] = bcrypt.hashSync(itemData[pw], 10)
+        } else {
+            delete itemData[pw]
+        }
+    }
+
     if (resourceComponent.unique_field && await ClassDatabase.findByName(itemData[resourceComponent.unique_text_field])) {
         res.status(400).json({ message: "A record with this name already exists." })
     } else {
+        console.log(itemData)
         ClassDatabase.add(itemData)
             .then(item => {
+                console.log(item)
                 if (resourceComponent.has_log) { log(req, {}, item) }
                 res.status(201).json(item);
             })
@@ -81,7 +92,7 @@ async function editRecord(req, res, ClassDatabase, resourceComponent) {
     const { id } = req.params;
     const itemData = req.body;
 
-    let pw = resourceComponent.password_field
+    let pw = resourceComponent.fields.password
     if (pw) {
         if (itemData[pw] && itemData[pw] != "") {
             itemData[pw] = bcrypt.hashSync(itemData[pw], 10)
