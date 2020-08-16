@@ -1,19 +1,25 @@
 const express = require('express');
 
 const authenticate = require('../core/restricted-middleware.js')
-const basicRouter = require('./router_helpers')
+const basicRouter = require('./router_helpers');
 
-
-function defaultRouter (resourceComponent) {
+//resourceComponent = information about the resource
+//siteComponent = information about the site
+function defaultRouter(resourceComponent, siteComponent) {
     const router = express.Router();
-    
-    const ClassDatabase = require('./model.js')(resourceComponent);
 
-    //BASIC ROUTES
+    const ClassDatabase = require('./model.js')(resourceComponent, siteComponent);
+
+    //Where custom routes come in- either new ones or to override
     resourceComponent.activateRoutes(router, ClassDatabase);
 
+    //BASIC ROUTES
     router.get('/', async (req, res) => {
-        basicRouter.getAll(req, res, ClassDatabase, resourceComponent)
+        
+        let results = []
+        try { await basicRouter.getAll(req, res, ClassDatabase, resourceComponent, siteComponent) }
+        catch { results = new Error("Error gettings items.")}
+        return results
     })
 
     router.post('/', authenticate.user_restricted, async (req, res) => {

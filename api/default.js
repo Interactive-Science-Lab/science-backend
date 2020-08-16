@@ -26,6 +26,13 @@ components.push( require('../site/componentFiles/object_item') )
 components.push( require('../site/componentFiles/tool') )
 
 
+components.push( require('../site/componentFiles/resource') )
+components.push( require('../site/componentFiles/resource_field') )
+components.push( require('../site/componentFiles/resource_feature') )
+components.push( require('../site/componentFiles/permission') )
+components.push( require('../site/componentFiles/menu_option') )
+
+
 
 components.map((component) => {
 

@@ -18,11 +18,14 @@ function find(resourceComponent) {
     const database = resourceComponent.names.lp
     const indexFields = resourceComponent.fields.index
     const idField = resourceComponent.fields.id
+
     resourceComponent.fields.unique ? indexFields.push(resourceComponent.fields.unique) : null
     resourceComponent.hasFeature('tags') ? indexFields.push(resourceComponent.featureOptions('tags').field) : null
+    
 
-    return query = db(database)
+    return db(database)
         .select([ idField, ...indexFields ])
+
 }
 
 function findById(id, resourceComponent) {

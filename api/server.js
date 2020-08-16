@@ -11,9 +11,10 @@ server.use(express.json());
 const coreRoutes = require('./core.js')
 server.use('/api', coreRoutes)
 
-
+/*
 const defaultRoutes = require('./default.js')
 server.use('/api', defaultRoutes)
+*/ 
 
 server.get('/', (req, res) => {
   res.send("Your API is successfully connected");

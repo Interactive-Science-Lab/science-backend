@@ -464,6 +464,176 @@ exports.seed = function (knex) {
       temperature: 20,
       low_temp_point: 1000,
       high_temp_point: 2000
+    },
+    {
+        "description": null,
+        "scientific_name": null,
+        "sprite": "marble",
+        "color": "purple",
+        "properties": [
+            "experiment_window",
+            "experiment_2"
+        ],
+        "volume": null,
+        "mass": null,
+        "ph": null,
+        "temperature": null,
+        "low_temp_point": null,
+        "high_temp_point": null,
+        "display_name": "Big Rubber Ball"
+    },
+    {
+        "description": null,
+        "scientific_name": null,
+        "sprite": "car",
+        "color": "speed-3",
+        "properties": [
+            "experiment_window",
+            "experiment_1"
+        ],
+        "volume": null,
+        "mass": null,
+        "ph": null,
+        "temperature": null,
+        "low_temp_point": null,
+        "high_temp_point": null,
+        "display_name": "Car Simulation"
+    },
+    {
+        "description": null,
+        "scientific_name": null,
+        "sprite": "pendulum",
+        "color": "obj",
+        "properties": [
+            "experiment_window",
+            "experiment_3"
+        ],
+        "volume": null,
+        "mass": null,
+        "ph": null,
+        "temperature": null,
+        "low_temp_point": null,
+        "high_temp_point": null,
+        "display_name": "Pendulum"
+    },
+    {
+        "description": null,
+        "scientific_name": null,
+        "sprite": "circuit",
+        "color": "obj",
+        "properties": [
+            "experiment_window",
+            "experiment_10"
+        ],
+        "volume": null,
+        "mass": null,
+        "ph": null,
+        "temperature": null,
+        "low_temp_point": null,
+        "high_temp_point": null,
+        "display_name": "Circuit Board"
+    },
+    {
+        "description": null,
+        "scientific_name": null,
+        "sprite": "cart",
+        "color": "obj",
+        "properties": [
+            "experiment_window",
+            "experiment_8"
+        ],
+        "volume": null,
+        "mass": null,
+        "ph": null,
+        "temperature": null,
+        "low_temp_point": null,
+        "high_temp_point": null,
+        "display_name": "Grocery Cart"
+    },
+    {
+        "description": null,
+        "scientific_name": null,
+        "sprite": "metalball",
+        "color": "obj",
+        "properties": [
+            "experiment_window",
+            "experiment_9"
+        ],
+        "volume": null,
+        "mass": null,
+        "ph": null,
+        "temperature": null,
+        "low_temp_point": null,
+        "high_temp_point": null,
+        "display_name": "Metal Ball"
+    },
+    {
+        "description": null,
+        "scientific_name": null,
+        "sprite": "whistle",
+        "color": "obj",
+        "properties": [
+            "experiment_window",
+            "experiment_6"
+        ],
+        "volume": null,
+        "mass": null,
+        "ph": null,
+        "temperature": null,
+        "low_temp_point": null,
+        "high_temp_point": null,
+        "display_name": "Whistle"
+    },
+    {
+        "description": null,
+        "scientific_name": null,
+        "sprite": "tray",
+        "color": "obj",
+        "properties": [
+            "experiment_window",
+            "experiment_7"
+        ],
+        "volume": null,
+        "mass": null,
+        "ph": null,
+        "temperature": null,
+        "low_temp_point": null,
+        "high_temp_point": null,
+        "display_name": "Liquid Tray"
+    },
+    {
+        "description": null,
+        "scientific_name": null,
+        "sprite": "simulator",
+        "color": "obj",
+        "properties": [
+            "experiment_window",
+            "experiment_5"
+        ],
+        "volume": null,
+        "mass": null,
+        "ph": null,
+        "temperature": null,
+        "low_temp_point": null,
+        "high_temp_point": null,
+        "display_name": "Momentum Simulator"
+    },
+    {
+        "description": null,
+        "scientific_name": null,
+        "sprite": "tank",
+        "color": "obj",
+        "properties": [
+            "experiment_window",
+            "experiment_4"
+        ],
+        "volume": null,
+        "mass": null,
+        "ph": null,
+        "temperature": null,
+        "low_temp_point": null,
+        "high_temp_point": null,
+        "display_name": "Water Tank"
     }
 
 

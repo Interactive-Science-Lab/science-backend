@@ -2,6 +2,9 @@ const paginateHelpers = require('./helpers/paginated_results')
 const { log } = require('../core/log-middleware.js')
 const Images = {}//require('../core/content/images/image-model.js');
 const bcrypt = require('bcryptjs') //hashing the password
+const db = require('../../../data/dbConfig.js');
+
+const Resource = require('../asteroid/resource');
 
 module.exports = {
     getAll,
@@ -11,7 +14,7 @@ module.exports = {
     deleteRecord
 }
 
-async function getAll(req, res, ClassDatabase, resourceComponent) {
+async function getAll(req, res, ClassDatabase, resourceComponent, siteComponent) {
     let ss = {
         sort: req.query.sort || resourceComponent.loader.sort || "",
         sortdir: req.query.sortdir || resourceComponent.loader.sortdir || "ASC",
@@ -25,31 +28,28 @@ async function getAll(req, res, ClassDatabase, resourceComponent) {
     try {
         let returnResults = await ClassDatabase.find(ss)
 
-        if (resourceComponent.hasFeature('paginate')) {
+        returnResults = await resourceComponent.handleIndexFeatures( returnResults )
+
+        if (resourceComponent.hasOption('paginate')) {
             returnResults = paginateHelpers.results(req, returnResults, resourceComponent)
         }
+
         return res.json(returnResults);
+
     } catch(err) {
         res.status(500).json({err, message: 'Failed to get items.' });
     }
 
 }
 
-async function getRecord(req, res, ClassDatabase, resourceComponent, respond = true) {
+async function getRecord(req, res, ClassDatabase, resourceComponent, siteComponent, respond = true) {
     const { id } = req.params;
 
     let item = await ClassDatabase.findById(id)
     if (item) {
-        if (resourceComponent.hasFeature('thumbnail')) {
-            const thumbnail = await ClassDatabase.getThumbnail(id)
-            item = { ...item, thumbnail }
-        }
         
-        if (resourceComponent.hasFeature('userKinds')) {
-            const info = await ClassDatabase.getUserInfo(item)
-            console.log(info)
-            item = { ...item, info }
-        }
+        item = await resourceComponent.handleViewFeatures( item )
+
 
         if (respond) { res.json(item) } else { return item }
     } else {
