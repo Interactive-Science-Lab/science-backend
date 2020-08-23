@@ -1,8 +1,18 @@
 const express = require('express');
 const server = express();
+require('dotenv').config();
 
-server.use('/auth', require(`./components/core/auth-router.js`))
+const cors = require('cors');
+server.use(cors());
 
+server.use(express.json());
 
+/* LIST OF CORE ROUTES */
 
-module.exports = server
+server.use('/api/auth', require(`./components/core/auth-router.js`))
+
+server.get('/', (req, res) => {
+  res.send("Your API is successfully connected");
+})
+
+module.exports = server;

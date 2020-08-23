@@ -1,10 +1,8 @@
+
+const bcrypt = require('bcryptjs') //hashing the password
 const paginateHelpers = require('./helpers/paginated_results')
 const { log } = require('../core/log-middleware.js')
-const Images = {}//require('../core/content/images/image-model.js');
-const bcrypt = require('bcryptjs') //hashing the password
-const db = require('../../../data/dbConfig.js');
 
-const Resource = require('../asteroid/resource');
 
 module.exports = {
     getAll,
@@ -14,41 +12,40 @@ module.exports = {
     deleteRecord
 }
 
-async function getAll(req, res, ClassDatabase, resourceComponent, siteComponent) {
-    let ss = {
-        sort: req.query.sort || resourceComponent.loader.sort || "",
-        sortdir: req.query.sortdir || resourceComponent.loader.sortdir || "ASC",
-        searchTerm: req.query.search || resourceComponent.loader.search || "",
-        filter: req.query.filter || resourceComponent.loader.filter || 'all',
-        tag: req.query.tag || resourceComponent.loader.tag || "",
-        category: req.query.category || resourceComponent.loader.category || "",
-        kind: req.query.kind || resourceComponent.loader.kind || ""
-    }
+
+
+async function getAll(req, res, ClassDatabase, resourceComponent) {
+    let searchQuery = defaultSearchQuery(resourceComponent, req)
 
     try {
-        let returnResults = await ClassDatabase.find(ss)
+        //Runs the search query based on input.
+        let returnResults = await ClassDatabase.find(searchQuery)
 
-        returnResults = await resourceComponent.handleIndexFeatures( returnResults )
+        //Looks to see if the Resource has any features that need called & combined with the results
+        returnResults = await resourceComponent.handleIndexFeatures(returnResults)
 
+        //If there's a paginate, take care of that here.
         if (resourceComponent.hasOption('paginate')) {
             returnResults = paginateHelpers.results(req, returnResults, resourceComponent)
         }
 
+        //And return the results.
         return res.json(returnResults);
 
-    } catch(err) {
-        res.status(500).json({err, message: 'Failed to get items.' });
+    } catch (err) {
+        res.status(500).json({ err, message: 'Failed to get items.' });
     }
 
 }
 
-async function getRecord(req, res, ClassDatabase, resourceComponent, siteComponent, respond = true) {
+//Takes in a "respond" boolean that defaults to true- this controls whether or not it sends the response.
+async function getRecord(req, res, ClassDatabase, resourceComponent, respond = true) {
     const { id } = req.params;
 
     let item = await ClassDatabase.findById(id)
     if (item) {
-        
-        item = await resourceComponent.handleViewFeatures( item )
+
+        item = await resourceComponent.handleViewFeatures(item)
 
 
         if (respond) { res.json(item) } else { return item }
@@ -127,4 +124,17 @@ async function deleteRecord(req, res, ClassDatabase, resourceComponent) {
             res.send("Success.")
         })
         .catch(err => { res.status(500).json({ message: 'Failed to delete item' }) });
+}
+
+
+defaultSearchQuery = (resourceComponent, req) => {
+    return {
+        sort: req.query.sort || resourceComponent.loader.sort || "",
+        sortdir: req.query.sortdir || resourceComponent.loader.sortdir || "ASC",
+        searchTerm: req.query.search || resourceComponent.loader.search || "",
+        filter: req.query.filter || resourceComponent.loader.filter || 'all',
+        tag: req.query.tag || resourceComponent.loader.tag || "",
+        category: req.query.category || resourceComponent.loader.category || "",
+        kind: req.query.kind || resourceComponent.loader.kind || ""
+    }
 }

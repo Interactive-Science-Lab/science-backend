@@ -3,15 +3,19 @@ const router = require('../default/router')
 const Resource = require('./resource');
 const db = require('../../../data/dbConfig')
 
+
+//Site is an object which continously holds the resources, permissions, and menuOptions.
+
 class Site {
     constructor() {
+        //Array of resources objects
         this.resources = []
         this.permissions = []
         this.menuOptions = []
-
     }
 
-    //This method does the very first ever call to the db to get the resource infos
+    //This method does the very first ever call to the db to get the resource infos, permissions & more,
+    //setting them to this object.
     async initializeResources() {
         let resources = await db('resources').select()
         let fieldsData = await db('resource_fields').select()
@@ -21,6 +25,7 @@ class Site {
         resources.map(r => {
             let rFields = fieldsData.filter(f => f.parent_id === r.resource_id)
             let rFeatures = featuresData.filter(f => f.parent_id === r.resource_id)
+            //Private method that puts everything in a class and adds it to the object.
             this.addResource( r, rFields, rFeatures )
         })
 
@@ -31,16 +36,19 @@ class Site {
         return this
     }
 
+    //Private method called by initialize resources
     addResource(r, rFields, rFeatures) {
         this.resources.push(new Resource(r, rFields, rFeatures))
     }
 
+    //Takes in a name and returns the correct resource based on that.
     findResource(name) {
         let ret = null
         this.resources.map(r => r.names.friendly === name ? ret = r : null)
         return ret
     }
 
+    //Creates a new server, applying the resources to that 
     retrieveServer() {
         const server = express();
         const siteComponent = this
@@ -48,6 +56,7 @@ class Site {
         this.resources.map((resource) => {
             let urlPath = '/'
             if(resource.names) { urlPath = resource.names.urlPath }
+            //Uses the urlPath and the default router, passing in this whole component.
             server.use(urlPath, router(resource, siteComponent))
 
             return resource

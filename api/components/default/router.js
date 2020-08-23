@@ -1,13 +1,15 @@
 const express = require('express');
 
 const authenticate = require('../core/restricted-middleware.js')
+
+//Functionality to clean up file.
 const basicRouter = require('./router_helpers');
 
-//resourceComponent = information about the resource
-//siteComponent = information about the site
+
 function defaultRouter(resourceComponent, siteComponent) {
     const router = express.Router();
 
+    //Passes in resource & site to get the default database model
     const ClassDatabase = require('./model.js')(resourceComponent, siteComponent);
 
     //Where custom routes come in- either new ones or to override
@@ -15,11 +17,12 @@ function defaultRouter(resourceComponent, siteComponent) {
 
     //BASIC ROUTES
     router.get('/', async (req, res) => {
-        
+
         let results = []
         try { await basicRouter.getAll(req, res, ClassDatabase, resourceComponent, siteComponent) }
         catch { results = new Error("Error gettings items.")}
         return results
+
     })
 
     router.post('/', authenticate.user_restricted, async (req, res) => {
