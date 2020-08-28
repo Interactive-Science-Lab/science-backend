@@ -80,7 +80,7 @@ async function newRecord(req, res, ClassDatabase, resourceComponent) {
                 res.status(201).json(item);
             })
             .catch(err => {
-                res.status(500).json({ message: 'Failed to create new item', err: itemData });
+                res.status(500).json({ message: 'Failed to create new item', err });
             });
     }
 }
