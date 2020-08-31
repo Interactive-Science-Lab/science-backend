@@ -38,10 +38,11 @@ function checkRequests(ip){
 }
 
 function checkBanned (ip){
-  return db('ip_bans')
+  /* db('ip_bans')
   .where('ip_address', ip)
   .first()
-  .then(res => res ? true : false)
+  .then(res => res ? true : false)*/
+  return false
 }
 
 const oneHourAgo = () => {
