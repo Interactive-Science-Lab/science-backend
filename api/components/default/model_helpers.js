@@ -85,7 +85,7 @@ function returnTags(tags) {
     cloudArr = cloudArr.sort((a, b) => b[1] - a[1])
     return cloudArr
 }
-
+//
 function add(data, resourceComponent, record_callback) {
     const database = resourceComponent.names.lp
     const idField = resourceComponent.fields.id
