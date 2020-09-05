@@ -24,7 +24,7 @@ function defaultRouter(resourceComponent, siteComponent) {
         return results
 
     })
-
+    //
     router.post('/', authenticate.user_restricted, async (req, res) => {
         basicRouter.newRecord(req, res, ClassDatabase, resourceComponent)
     });
