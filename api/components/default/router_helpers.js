@@ -89,7 +89,10 @@ async function editRecord(req, res, ClassDatabase, resourceComponent) {
     const { id } = req.params;
     const itemData = req.body;
 
-    let pw = resourceComponent.fields.password
+    console.log(resourceComponent)
+
+    
+    let pw = resourceComponent.options.password_field
     if (pw) {
         if (itemData[pw] && itemData[pw] != "") {
             itemData[pw] = bcrypt.hashSync(itemData[pw], 10)
@@ -111,6 +114,7 @@ async function editRecord(req, res, ClassDatabase, resourceComponent) {
                 res.status(500).json({ message: 'Failed to update item' });
             });
     }
+    
 }
 
 async function deleteRecord(req, res, ClassDatabase, resourceComponent) {
