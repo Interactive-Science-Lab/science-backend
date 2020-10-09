@@ -12,6 +12,7 @@ class Component {
             friendly: friendly,
             urlPath: options.urlPath || "/" + friendly,
         }
+        //
 
         this.features = {
             paginate: { name: 'paginate', on: false, options: {} },
