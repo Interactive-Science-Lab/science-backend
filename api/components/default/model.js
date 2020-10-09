@@ -38,8 +38,13 @@ const defaultModel = (resourceComponent, siteComponent) => {
         }
 
         if(searchTerm) {
-            console.log(resourceComponent)
             query = query.where(resourceComponent.nameField, "ILIKE", `%${searchTerm}%`)
+        }
+
+        if(filter) {
+            if(filter !== 'all') {
+                query = query.where('experiment_class', filter)
+            }
         }
 
         return query
