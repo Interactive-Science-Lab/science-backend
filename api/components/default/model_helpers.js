@@ -27,7 +27,7 @@ function find(resourceComponent) {
         .select([ idField, ...indexFields ])
 
 }
-//
+
 function findById(id, resourceComponent) {
     const database = resourceComponent.names.lp
     const indexFields = resourceComponent.fields.index
