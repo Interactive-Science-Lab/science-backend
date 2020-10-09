@@ -33,6 +33,15 @@ const defaultModel = (resourceComponent, siteComponent) => {
             }
         })
 
+        if(sort && sortdir) {
+            query = query.orderBy(sort, sortdir)
+        }
+
+        if(searchTerm) {
+            console.log(resourceComponent)
+            query = query.where(resourceComponent.nameField, "ILIKE", `%${searchTerm}%`)
+        }
+
         return query
     }
 

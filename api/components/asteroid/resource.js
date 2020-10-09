@@ -96,7 +96,6 @@ class Resource {
         tempArray.map(s => data['features'][s.info.names.lp] = s)
 
 
-        console.log(data)
         return data
 
     }

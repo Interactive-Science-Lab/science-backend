@@ -17,6 +17,8 @@ module.exports = {
 async function getAll(req, res, ClassDatabase, resourceComponent) {
     let searchQuery = defaultSearchQuery(resourceComponent, req)
 
+
+
     try {
         //Runs the search query based on input.
         let returnResults = await ClassDatabase.find(searchQuery)
@@ -72,10 +74,8 @@ async function newRecord(req, res, ClassDatabase, resourceComponent) {
     if (resourceComponent.unique_field && await ClassDatabase.findByName(itemData[resourceComponent.unique_text_field])) {
         res.status(400).json({ message: "A record with this name already exists." })
     } else {
-        console.log(itemData)
         ClassDatabase.add(itemData)
             .then(item => {
-                console.log(item)
                 if (resourceComponent.has_log) { log(req, {}, item) }
                 res.status(201).json(item);
             })
@@ -88,8 +88,6 @@ async function newRecord(req, res, ClassDatabase, resourceComponent) {
 async function editRecord(req, res, ClassDatabase, resourceComponent) {
     const { id } = req.params;
     const itemData = req.body;
-
-    console.log(resourceComponent)
 
     
     let pw = resourceComponent.options.password_field
