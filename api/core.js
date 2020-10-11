@@ -7,7 +7,7 @@ server.use(cors());
 
 server.use(express.json());
 
-/* LIST OF CORE ROUTES */ 
+/* LIST OF CORE ROUTES */ //
 
 server.use('/api/auth', require(`./components/core/auth-router.js`))
 
