@@ -1,10 +1,6 @@
 const express = require('express');
-const router = express.Router();
-const db = require('../../../data/dbConfig')
 
-const u = require('../../../site/componentFiles/user')
-const ClassDatabase = require('../default/model.js');
-const Users = ClassDatabase(u)
+const authenticate = require('../core/restricted-middleware.js')
 
 const IpAuth = require('./ip-auth-model.js')
 
@@ -18,11 +14,8 @@ const nodeMailer = require('nodemailer')
 const verifyEmailTemplate = require('../../../site/emailTemplates/verify-email-template')
 const forgotPasswordTemplate = require('../../../site/emailTemplates/forgotten-password-template')
 
-//Auth middleware
-const authenticate = require('./restricted-middleware.js')
-
-
 const userKindsInfo = {}//require('../userKinds/user_kinds-model')
+
 
 //Table of Contents
 //-----------------
@@ -34,212 +27,222 @@ const userKindsInfo = {}//require('../userKinds/user_kinds-model')
 // Edit account
 // Logout
 
-//---------------------------------------------
-//  REGISTER
-//POST /users/auth/register
-//Takes in a json object of user information, cleans it, checks it validity, creates the user, and sends a registration email.
-//---------------------------------------------
-router.post('/register', async (req, res) => {
-  //make sure we remove all malicious attempts to falsely set privelages, roles, etc.
-  //let userData = cleanAndSetInput(req.body);
-  let userData = req.body
+function authRouter(resourceComponent, siteComponent) {
+  const router = express.Router();
 
-  //Test the password's strength and start to keep track of errors
-  var pwStrength = owasp.test(userData.password);
-  let errors = pwStrength.errors
+  //Passes in resource & site to get the default database model
+  const Users = require('../default/model.js')(resourceComponent, siteComponent);
 
-  var regex = /^[A-Za-z0-9]+$/
-  var isValid = regex.test(userData.username);
-  if (!isValid) { errors.push("Username can only contain letters & numbers, no spaces or symbols.") }
+  //---------------------------------------------
+  //  REGISTER
+  //POST /users/auth/register
+  //Takes in a json object of user information, cleans it, checks it validity, creates the user, and sends a registration email.
+  //---------------------------------------------
+  router.post('/register', async (req, res) => {
+    //make sure we remove all malicious attempts to falsely set privelages, roles, etc.
+    //let userData = cleanAndSetInput(req.body);
+    let userData = req.body
 
-  //See if the username/email is taken, and add to errors if true.
-  var userSearch = await Users.findUser(userData.user_email, userData.username)
-  if (userSearch && userSearch.user_id) {
-    if (userSearch.username.toLowerCase() === userData.username.toLowerCase()) { errors.push("That username is taken.") }
-    if (userSearch.user_email.toLowerCase() === userData.user_email.toLowerCase()) { errors.push("That email is taken.") }
-  }
+    //Test the password's strength and start to keep track of errors
+    var pwStrength = owasp.test(userData.password);
+    let errors = pwStrength.errors
 
-  if (errors.length === 0) {
-    userData.password = bcrypt.hashSync(userData.password, 10)
-    const user = await Users.add(userData)
-
-    const userInfo = await createUserKindInfo(user)
-
-    user.userInfo = userInfo
-
-    const user_hash = registerEmail(user)
-    res.status(201).json({
-      message: "User registered. Please check your email for confirmation.",
-      user, //should be removed in prod
-      user_hash //should be removed in prod
-
-    })
-
-  } else {
-    res.status(400).json({ message: "Could not complete registration", error: pwStrength.errors })
-  }
-
-});
-
-
-//---------------------------------------------
-//  VERIFY
-//GET /users/auth/verify/:user_id/:user_hash
-//Takes in a json object of user information, cleans it, checks it validity, creates the user, and sends a registration email.
-//---------------------------------------------
-router.get("/verify/:user_id/:user_hash", async (req, res) => {
-  const { user_hash, user_id } = req.params
-  const user = await Users.findById(user_id)
-
-  //Check the user_hash from the email vs. the username
-  if (checkRegistrationHash(user, user_hash)) {
-    Users.verify(user_id)
-      .then(response => res.json({ messge: "Thank you. Please log in." }))
-      .catch(err => { res.status(500).json({ message: 'Failed.' }) })
-  } else {
-    res.send("Unkwown Error (no user found)")
-  }
-})
-
-
-//---------------------------------------------
-//  REQUEST FORGOTTEN PASSWORD
-//GET /users/auth/forgottenPassword/:username_or_email
-//Takes a username/email, makes the changes to the record, and sends an email.
-//---------------------------------------------
-router.get("/forgottenPassword/:usernameEmail", async (req, res) => {
-  const { usernameEmail } = req.params
-
-  const user = await resetPassword(usernameEmail)
-
-  forgotPasswordEmail(user)
-
-  //Return a false success even if user doesn't exist
-  res.json({ message: "Success! Please check your email." })
-})
-
-
-//---------------------------------------------
-//  RESET FORGOTTEN PASSWORD
-//PUT /users/auth/resetPassword/:username_or_email/:user_hash
-//Takes a 
-//---------------------------------------------
-router.put("/resetPassword/:username/:user_hash", async (req, res) => {
-  const { user_hash, username } = req.params
-  const { password } = req.body
-
-  var pwStrength = owasp.test(password);
-
-  if (pwStrength.errors.length === 0) {
-    const user = await setPassword(username, password, user_hash)
-    res.json({ message: "All set.", user })
-  } else {
-    res.status(400).json({ message: "Please check your password", error: pwStrength.errors })
-  }
-})
-
-//---------------------------------------------
-//  LOGIN
-//PUT /users/auth/resetPassword/:username_or_email/:user_hash
-//Takes a 
-//---------------------------------------------
-router.post('/login', check_ip_ban, (req, res) => {
-  let { username, password } = req.body
-
-  Users.explicitFindByFields(username, ['username', 'user_email'])
-    .then(user => {
-      let pWcompare = bcrypt.compareSync(password, user.password)
-      if (user && pWcompare && user.user_verified) {
-        const token = generateToken(user)
-        delete user.password
-        res.status(200).json({ message: "Welcome!", token: token, user: user })
-      } else {
-        res.status(500).json({ message: "Invalid Credentials." })
-      }
-    })
-    .catch(error => {
-      res.status(500).json({ message: "Invalid Credentials." })
-    })
-});
-
-//---------------------------------------------
-//  EDIT ACCOUNT
-//PUT /users/auth/edit
-//Takes a 
-//---------------------------------------------
-router.put('/edit', authenticate.user_restricted, async (req, res) => {
-  const changes = req.body;
-  const user = req.decodedToken.user;
-  const id = user.user_id
-  //delete changes['user_role']
-  delete changes['user_id']
-  delete changes['user_verified']
-
-  let errors = []
-  let usernameSearch = false
-  let emailSearch = false
-
-  if (changes.password && changes.password != "") {
-    var pwStrength = owasp.test(changes.password);
-    errors = [...errors, ...pwStrength.errors]
-    changes.password = bcrypt.hashSync(changes.password, 10)
-  } else {
-    delete changes.password
-  }
-
-  if (changes.username && (changes.username != user.username)) {
     var regex = /^[A-Za-z0-9]+$/
-    var isValid = regex.test(changes.username);
+    var isValid = regex.test(userData.username);
     if (!isValid) { errors.push("Username can only contain letters & numbers, no spaces or symbols.") }
-    usernameSearch = await Users.findByUsername(changes.username)
-    if (usernameSearch) { errors.push("That username is taken.") }
-  }
 
-  if (changes.user_email && (changes.user_email != user.user_email)) {
-    emailSearch = await Users.findByEmail(changes.user_email)
-    if (emailSearch) { errors.push("THat email is taken.") }
-  }
+    //See if the username/email is taken, and add to errors if true.
+    var userSearch = await Users.findUser(userData.user_email, userData.username)
+    if (userSearch && userSearch.user_id) {
+      if (userSearch.username.toLowerCase() === userData.username.toLowerCase()) { errors.push("That username is taken.") }
+      if (userSearch.user_email.toLowerCase() === userData.user_email.toLowerCase()) { errors.push("That email is taken.") }
+    }
 
-  if (errors.length === 0) {
-    Users.update(changes, id)
-      .then(updatedUser => {
-        res.json(updatedUser);
+    if (errors.length === 0) {
+      userData.password = bcrypt.hashSync(userData.password, 10)
+      const user = await Users.add(userData)
+
+      const userInfo = await createUserKindInfo(user)
+
+      user.userInfo = userInfo
+
+      const user_hash = registerEmail(user)
+      res.status(201).json({
+        message: "User registered. Please check your email for confirmation.",
+        user, //should be removed in prod
+        user_hash //should be removed in prod
+
+      })
+
+    } else {
+      res.status(400).json({ message: "Could not complete registration", error: pwStrength.errors })
+    }
+
+  });
+
+
+  //---------------------------------------------
+  //  VERIFY
+  //GET /users/auth/verify/:user_id/:user_hash
+  //Takes in a json object of user information, cleans it, checks it validity, creates the user, and sends a registration email.
+  //---------------------------------------------
+  router.get("/verify/:user_id/:user_hash", async (req, res) => {
+    const { user_hash, user_id } = req.params
+    const user = await Users.findById(user_id)
+
+    //Check the user_hash from the email vs. the username
+    if (checkRegistrationHash(user, user_hash)) {
+      Users.verify(user_id)
+        .then(response => res.json({ messge: "Thank you. Please log in." }))
+        .catch(err => { res.status(500).json({ message: 'Failed.' }) })
+    } else {
+      res.send("Unkwown Error (no user found)")
+    }
+  })
+
+
+  //---------------------------------------------
+  //  REQUEST FORGOTTEN PASSWORD
+  //GET /users/auth/forgottenPassword/:username_or_email
+  //Takes a username/email, makes the changes to the record, and sends an email.
+  //---------------------------------------------
+  router.get("/forgottenPassword/:usernameEmail", async (req, res) => {
+    const { usernameEmail } = req.params
+
+    const user = await resetPassword(usernameEmail)
+
+    forgotPasswordEmail(user)
+
+    //Return a false success even if user doesn't exist
+    res.json({ message: "Success! Please check your email." })
+  })
+
+
+  //---------------------------------------------
+  //  RESET FORGOTTEN PASSWORD
+  //PUT /users/auth/resetPassword/:username_or_email/:user_hash
+  //Takes a 
+  //---------------------------------------------
+  router.put("/resetPassword/:username/:user_hash", async (req, res) => {
+    const { user_hash, username } = req.params
+    const { password } = req.body
+
+    var pwStrength = owasp.test(password);
+
+    if (pwStrength.errors.length === 0) {
+      const user = await setPassword(username, password, user_hash)
+      res.json({ message: "All set.", user })
+    } else {
+      res.status(400).json({ message: "Please check your password", error: pwStrength.errors })
+    }
+  })
+
+  //---------------------------------------------
+  //  LOGIN
+  //PUT /users/auth/resetPassword/:username_or_email/:user_hash
+  //Takes a 
+  //---------------------------------------------
+  router.post('/login', check_ip_ban, (req, res) => {
+    let { username, password } = req.body
+
+    Users.explicitFindByFields(username, ['username', 'user_email'])
+      .then(user => {
+        let pWcompare = bcrypt.compareSync(password, user.password)
+        if (user && pWcompare && user.user_verified) {
+          const token = generateToken(user)
+          delete user.password
+          res.status(200).json({ message: "Welcome!", token: token, user: user })
+        } else {
+          res.status(500).json({ message: "Invalid Credentials." })
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ message: "Invalid Credentials." })
+      })
+  });
+
+  //---------------------------------------------
+  //  EDIT ACCOUNT
+  //PUT /users/auth/edit
+  //Takes a 
+  //---------------------------------------------
+  router.put('/edit', authenticate.user_restricted, async (req, res) => {
+    const changes = req.body;
+    const user = req.decodedToken.user;
+    const id = user.user_id
+    //delete changes['user_role']
+    delete changes['user_id']
+    delete changes['user_verified']
+
+    let errors = []
+    let usernameSearch = false
+    let emailSearch = false
+
+    if (changes.password && changes.password != "") {
+      var pwStrength = owasp.test(changes.password);
+      errors = [...errors, ...pwStrength.errors]
+      changes.password = bcrypt.hashSync(changes.password, 10)
+    } else {
+      delete changes.password
+    }
+
+    if (changes.username && (changes.username != user.username)) {
+      var regex = /^[A-Za-z0-9]+$/
+      var isValid = regex.test(changes.username);
+      if (!isValid) { errors.push("Username can only contain letters & numbers, no spaces or symbols.") }
+      usernameSearch = await Users.findByUsername(changes.username)
+      if (usernameSearch) { errors.push("That username is taken.") }
+    }
+
+    if (changes.user_email && (changes.user_email != user.user_email)) {
+      emailSearch = await Users.findByEmail(changes.user_email)
+      if (emailSearch) { errors.push("THat email is taken.") }
+    }
+
+    if (errors.length === 0) {
+      Users.update(changes, id)
+        .then(updatedUser => {
+          res.json(updatedUser);
+        });
+    } else {
+      res.status(400).json({ message: 'Could not update user', error: errors });
+    }
+  });
+
+  router.put('/edit/info', authenticate.user_restricted, (req, res) => {
+    const infoData = req.body;
+    const user = req.decodedToken.user;
+    const id = user.user_id
+
+    const UserKindDb = userKindsInfo(user.user_kind)
+
+    UserKindDb.updateByUserId(infoData, id)
+      .then(updateInfo => {
+        user.info = updateInfo
+        res.json(user);
+      })
+      .catch(err => {
+        res.status(500).json({ message: 'Failed to update the users information' });
       });
-  } else {
-    res.status(400).json({ message: 'Could not update user', error: errors });
-  }
-});
 
-router.put('/edit/info', authenticate.user_restricted, (req, res) => {
-  const infoData = req.body;
-  const user = req.decodedToken.user;
-  const id = user.user_id
-
-  const UserKindDb = userKindsInfo(user.user_kind)
-
-  UserKindDb.updateByUserId(infoData, id)
-    .then(updateInfo => {
-      user.info = updateInfo
-      res.json(user);
-    })
-    .catch(err => {
-      res.status(500).json({ message: 'Failed to update the users information' });
-    });
-
-});
+  });
 
 
-//---------------------------------------------
-//  LOGOUT
-//PUT /users/auth/resetPassword/:username_or_email/:user_hash
-//Takes a 
-//---------------------------------------------
-router.delete('/logout', authenticate.user_restricted, (req, res) => {
-  res.status(200).json({ message: "Logged out!" })
-});
+  //---------------------------------------------
+  //  LOGOUT
+  //PUT /users/auth/resetPassword/:username_or_email/:user_hash
+  //Takes a 
+  //---------------------------------------------
+  router.delete('/logout', authenticate.user_restricted, (req, res) => {
+    res.status(200).json({ message: "Logged out!" })
+  });
 
 
-module.exports = router;
+  return router
+}
+
+module.exports = authRouter
+
 
 async function createUserKindInfo(user) {
   const UserKindDb = userKindsInfo(user.user_kind)
@@ -249,7 +252,18 @@ async function createUserKindInfo(user) {
 
 
 //---------------------------------------------
+
+
+
+//---------------------------------------------
+
+
 //  PRIVATE FUNCTIONS
+
+
+//---------------------------------------------
+
+
 //---------------------------------------------
 
 //IP Related
@@ -278,17 +292,17 @@ const getUserIP = (req) => {
 //Returns a nice JSON token with the user object attached.
 function generateToken(user) {
   const payload = {
-    subject: user.user_id, 
+    subject: user.user_id,
     user: user
   };
- 
+
   const options = {
-    expiresIn: '30d', 
+    expiresIn: '30d',
   };
-  
+
   let token = jwt.sign(payload, process.env.JWT_SECRET || "add a third table for many to many", options)
-  
-  return token 
+
+  return token
 }
 
 

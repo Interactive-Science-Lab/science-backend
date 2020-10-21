@@ -1,10 +1,12 @@
+/* 
+SITE is the master component which holds all the resoures, permissions, and menuOptions. 
+*/
 const express = require('express')
 const router = require('../default/router')
+const authRouter = require(`../core/auth-router.js`)
 const Resource = require('./resource');
 const db = require('../../../data/dbConfig')
 
-
-//Site is an object which continously holds the resources, permissions, and menuOptions.
 
 class Site {
     constructor() {
@@ -65,6 +67,15 @@ class Site {
         return server
     }
 
+    attachAuth() {
+        const server = express();
+        const siteComponent = this
+        const userResource = this.findResource('users')
+
+        server.use('/', authRouter(userResource, siteComponent))
+
+        return server
+    }
 
 }
 
