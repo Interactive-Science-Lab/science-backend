@@ -1,5 +1,7 @@
 const db = require('../../../data/dbConfig')
 
+const ResourceOptions = require('./resourceOptions');
+
 //A "Resource" is a REST-route
 
 class Resource {
@@ -11,8 +13,9 @@ class Resource {
         //But then we rewrite a few things.
         this.names = this.names || {urlPath: "/"}
         this.loader = this.loader || {}
-        this.options = this.options || {}
+        this.options = new ResourceOptions(data.options)
         this.features = featuresData
+        
         this.fields = {
             id: data.idField,
             name: data.nameField,
@@ -20,6 +23,7 @@ class Resource {
             index: fieldsData.map(f => f.name),
             record: []
         }
+        
         this.routes = []
         this.modelFunctions = {}
 
@@ -31,7 +35,7 @@ class Resource {
     }
 
     hasOption(name) {
-        return this.options[name]
+        return this.options.hasOption(name)
     }
 
     addRoute(route) {
