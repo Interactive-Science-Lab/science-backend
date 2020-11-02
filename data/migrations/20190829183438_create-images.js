@@ -14,7 +14,7 @@ exports.up = function(knex, Promise) {
     })
 
 };
-
+//
 exports.down = function(knex, Promise) {
   // drops the entire table
   return knex.schema
