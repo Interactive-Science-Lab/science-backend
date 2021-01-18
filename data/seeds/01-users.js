@@ -1,6 +1,6 @@
 
 const bcrypt = require('bcryptjs') 
-const password = bcrypt.hashSync("1234!Asdf", 10)
+const password = bcrypt.hashSync("Abc123!", 10)
 
 exports.seed = function (knex) {
     return knex('users').insert([
