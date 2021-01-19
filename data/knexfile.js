@@ -30,7 +30,9 @@ module.exports = {
     client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: { directory: './migrations' },
-    seeds: { directory: './seeds' }
+    seeds: { directory: './seeds' },
+    ssl: 'true',
+    sslfactory: "org.postgresql.ssl.NonValidatingFactory"
   }
 
 
