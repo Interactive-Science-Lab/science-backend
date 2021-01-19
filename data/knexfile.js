@@ -28,11 +28,12 @@ module.exports = {
     },
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
+    connectionString: process.env.DATABASE_URL,
     migrations: { directory: './migrations' },
     seeds: { directory: './seeds' },
-    ssl: { rejectUnauthorized: false },
-    sslfactory: "org.postgresql.ssl.NonValidatingFactory"
+    ssl: { rejectUnauthorized: 'false' },
+    sslmode: 'require', 
+    sslFactory: "org.postgresql.ssl.NonValidatingFactory"
   }
 
 
