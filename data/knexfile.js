@@ -1,5 +1,3 @@
-// Update with your config settings.
-
 module.exports = {
 
   development: {
@@ -7,8 +5,8 @@ module.exports = {
     connection: {
       host : '127.0.0.1',
       user : 'postgres',
-      password : '',
-      database : 'simple-blog',
+      password : '1234',
+      database : 'science-lab',
       charset: 'utf8'
     },
     migrations: { directory: './migrations' },
@@ -20,7 +18,7 @@ module.exports = {
         host : '127.0.0.1',
         user : 'postgres',
         password : '',
-        database : 'simple-blog-test',
+        database : 'science-lab-test',
         charset: 'utf8'
       },
       migrations: { directory: './migrations' },
@@ -30,7 +28,10 @@ module.exports = {
     client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: { directory: './migrations' },
-    seeds: { directory: './seeds' }
+    seeds: { directory: './seeds' },
+    ssl: { rejectUnauthorized: 'false' },
+    sslmode: 'require', 
+    sslFactory: "org.postgresql.ssl.NonValidatingFactory"
   }
 
 
