@@ -29,7 +29,7 @@ module.exports = {
     connection: process.env.DATABASE_URL,
     migrations: { directory: './migrations' },
     seeds: { directory: './seeds' },
-    ssl: 'true',
+    ssl: { rejectUnauthorized: 'false' },
     sslmode: 'require', 
     sslFactory: "org.postgresql.ssl.NonValidatingFactory"
   }
