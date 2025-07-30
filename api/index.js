@@ -4,7 +4,15 @@ const server = express();
 require('dotenv').config();
 
 const cors = require('cors');
-server.use(cors());
+
+// For development - allow all origins (less secure but easier for development)
+// For production, use the more restrictive configuration above
+server.use(cors({
+  origin: true, // Allow all origins
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
 
 server.use(express.json());
 
