@@ -5,14 +5,38 @@ require('dotenv').config();
 
 const cors = require('cors');
 
-// For development - allow all origins (less secure but easier for development)
-// For production, use the more restrictive configuration above
-server.use(cors({
-  origin: true, // Allow all origins
-  credentials: true,
+// Configure CORS with proper options including production domain
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Allow these origins
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:3001', 
+      'http://localhost:8080',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:3001',
+      'http://127.0.0.1:8080',
+      'https://homeschoollabsdemo.com',
+      'http://homeschoollabsdemo.com'
+    ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Allow cookies and authentication headers
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+};
+
+server.use(cors(corsOptions));
 
 server.use(express.json());
 
