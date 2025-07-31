@@ -40,6 +40,20 @@ class Resource {
 
     activateRoutes(router, ClassDatabase) {
         this.routes.map(r => r(router, ClassDatabase))
+
+        // Add custom menu route for pages resource
+        if (this.names.friendly === 'pages') {
+            router.get('/menu', async (req, res) => {
+                try {
+                    // Get all site pages for menu
+                    const pages = await db('site_pages').select('*')
+                    res.json(pages)
+                } catch (error) {
+                    console.error('Error fetching menu pages:', error)
+                    res.status(500).json({ error: 'Failed to fetch menu pages' })
+                }
+            })
+        }
     }
 
     addModelFunction(modelFunction, functionName) {
