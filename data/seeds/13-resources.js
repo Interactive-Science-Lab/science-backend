@@ -274,6 +274,27 @@ exports.seed = function (knex) {
       "loader": null,
       "options": null,
       "actionRedirects": null,
+    },
+    {
+      "resource_id": 14,
+      "base_name": "drawer",
+      "idField": "drawer_id",
+      "nameField": "name",
+      "actionOptions": null,
+      "permission_id": null,
+      "special_fields": null,
+      "names": {
+        "ls": "drawer",
+        "lp": "drawers",
+        "us": "Drawer",
+        "up": "Drawers",
+        "friendly": "drawers",
+        "urlPath": "/drawers"
+      },
+      "text": null,
+      "loader": null,
+      "options": null,
+      "actionRedirects": null
     }
 
 

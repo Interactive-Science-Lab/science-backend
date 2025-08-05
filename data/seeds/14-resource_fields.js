@@ -1055,6 +1055,84 @@ exports.seed = function (knex) {
         "text": null,
         "validations": null,
         "info": null
+    },
+    {
+        "resource_field_id": 82,
+        "parent_id": 14,
+        "permission_id": null,
+        "name": "drawer_id",
+        "label": "ID",
+        "category": null,
+        "displayType": "number",
+        "displayName": "Text",
+        "text": null,
+        "validations": null,
+        "info": null
+    },
+    {
+        "resource_field_id": 83,
+        "parent_id": 14,
+        "permission_id": null,
+        "name": "name",
+        "label": "Name",
+        "category": null,
+        "displayType": "string",
+        "displayName": "Text",
+        "text": null,
+        "validations": null,
+        "info": null
+    },
+    {
+        "resource_field_id": 84,
+        "parent_id": 14,
+        "permission_id": null,
+        "name": "class",
+        "label": "Class",
+        "category": null,
+        "displayType": "string",
+        "displayName": "Text",
+        "text": null,
+        "validations": null,
+        "info": null
+    },
+    {
+        "resource_field_id": 85,
+        "parent_id": 14,
+        "permission_id": null,
+        "name": "object_type",
+        "label": "Object Type",
+        "category": null,
+        "displayType": "string",
+        "displayName": "Text",
+        "text": null,
+        "validations": null,
+        "info": null
+    },
+    {
+        "resource_field_id": 86,
+        "parent_id": 14,
+        "permission_id": null,
+        "name": "order",
+        "label": "Order",
+        "category": null,
+        "displayType": "number",
+        "displayName": "Text",
+        "text": null,
+        "validations": null,
+        "info": null
+    },
+    {
+        "resource_field_id": 87,
+        "parent_id": 14,
+        "permission_id": null,
+        "name": "objects",
+        "label": "Objects",
+        "category": null,
+        "displayType": "array",
+        "displayName": "Text",
+        "text": null,
+        "validations": null,
+        "info": null
     }
 ])
 };

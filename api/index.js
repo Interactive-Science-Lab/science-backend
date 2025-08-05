@@ -19,6 +19,8 @@ const corsOptions = {
       'http://127.0.0.1:3000',
       'http://127.0.0.1:3001',
       'http://127.0.0.1:8080',
+      'https://interactivelabscience-duplicate.netlify.app',
+      'http://interactivelabscience-duplicate.netlify.app',
       'https://homeschoollabsdemo.com',
       'http://homeschoollabsdemo.com'
     ];
