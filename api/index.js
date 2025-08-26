@@ -23,6 +23,8 @@ const corsOptions = {
       'http://interactivelabscience-duplicate.netlify.app',
       'https://interactivelabscience-demo-duplicate.netlify.app',
       'http://interactivelabscience-demo-duplicate.netlify.app',
+      'http://homeschoollabsdemo2.com',
+      'https://homeschoollabsdemo2.com',
       'https://homeschoollabsdemo.com',
       'http://homeschoollabsdemo.com'
     ];
